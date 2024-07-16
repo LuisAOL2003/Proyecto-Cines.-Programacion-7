@@ -32,6 +32,8 @@ export const getMovie = async (req, res) => {
   }
 };
 
+//hola
+
 // Obtener todas las películas
 export const getAllMovies = async (req, res) => {
   try {
@@ -42,7 +44,7 @@ export const getAllMovies = async (req, res) => {
   }
 };
 
-//Hola
+
 
 // Actualizar película por ID
 export const updateMovie = async (req, res) => {
