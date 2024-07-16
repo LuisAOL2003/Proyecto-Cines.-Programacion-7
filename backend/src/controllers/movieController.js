@@ -42,6 +42,8 @@ export const getAllMovies = async (req, res) => {
   }
 };
 
+//Hola
+
 // Actualizar película por ID
 export const updateMovie = async (req, res) => {
   const { id } = req.params;
