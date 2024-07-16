@@ -107,3 +107,15 @@ export const refreshToken = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Función para cerrar sesión
+export const logoutUser = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    await pool.query('UPDATE Usuarios SET refreshToken = NULL WHERE id_usuario = $1', [id]);
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
