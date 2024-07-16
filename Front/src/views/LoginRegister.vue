@@ -11,7 +11,7 @@
             <div class="title">Sign in</div>
             <div class="subtitle">
               Don't have an account?
-              <span class="subtitle-action" @click="signIn = !signIn">Create Account</span>
+              <span class="subtitle-action" @click="signIn = !signIn">Crear cuenta</span>
             </div>
           </div>
           <form>
