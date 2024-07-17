@@ -14,7 +14,7 @@
               <span class="subtitle-action" @click="signIn = !signIn">Create Account</span>
             </div>
           </div>
-          <form>
+          <form @submit.prevent="login">
             <div class="form">
               <input
                 required
@@ -22,9 +22,8 @@
                 aria-invalid="false"
                 aria-label="E-mail"
                 type="email"
-                pattern="^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$"
                 class="w100"
-                :class="{ invalid: email.error }"
+                :class="{ invalid: email.value && !emailRegex.test(email.value) }"
                 ref="email"
                 placeholder="Email"
                 autofocus
@@ -37,7 +36,7 @@
                 aria-required="true"
                 type="password"
                 class="w100"
-                :class="{ invalid: password.error }"
+                :class="{ invalid: password.value && !passwordRegex.test(password.value) }"
                 placeholder="Password"
                 v-model="password.value"
                 @blur="validatePassword"
@@ -64,36 +63,40 @@
               <span class="subtitle-action" @click="signIn = !signIn">Sign In</span>
             </div>
           </div>
-          <div class="form">
-            <input
-              type="text"
-              placeholder="First name"
-              autofocus
-              v-model="firstName"
-              class="w100"
-            />
-            <input
-              type="text"
-              placeholder="Last name"
-              v-model="lastName"
-              class="w100"
-            />
-            <input
-              type="text"
-              class="w100"
-              placeholder="Email"
-              v-model="email.value"
-            />
-            <input
-              type="password"
-              class="w100"
-              placeholder="Password"
-              v-model="password.value"
-            />
-          </div>
-          <button class="action" :class="{ 'action-disabled': !registerValid }">
-            Create Account
-          </button>
+          <form @submit.prevent="register">
+            <div class="form">
+              <input
+                type="text"
+                placeholder="First name"
+                autofocus
+                v-model="firstName"
+                class="w100"
+              />
+              <input
+                type="text"
+                placeholder="Last name"
+                v-model="lastName"
+                class="w100"
+              />
+              <input
+                type="email"
+                class="w100"
+                placeholder="Email"
+                v-model="email.value"
+                :class="{ invalid: email.value && !emailRegex.test(email.value) }"
+              />
+              <input
+                type="password"
+                class="w100"
+                placeholder="Password"
+                v-model="password.value"
+                :class="{ invalid: password.value && !passwordRegex.test(password.value) }"
+              />
+            </div>
+            <button class="action" :class="{ 'action-disabled': !registerValid }">
+              Create Account
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -101,10 +104,12 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      emailRegex: /^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$/,
+      emailRegex: /^[\w.-]+@[\w.-]+\.\w+$/,
       passwordRegex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
 
       firstName: "",
@@ -126,13 +131,50 @@ export default {
 
   methods: {
     validateEmail() {
-      if (this.email.value == "") this.email.error = true;
-      else this.email.error = false;
+      this.email.error = !this.emailRegex.test(this.email.value);
     },
 
     validatePassword() {
-      if (this.password.value == "") this.password.error = true;
-      else this.password.error = false;
+      this.password.error = !this.passwordRegex.test(this.password.value);
+    },
+
+    async login() {
+      if (!this.email.value || !this.password.value || this.email.error || this.password.error) {
+        console.error('Please fill in all required fields correctly.');
+        return;
+      }
+
+      try {
+        const response = await axios.post('http://localhost:3000/api/auth/login', {
+          email: this.email.value,
+          password: this.password.value,
+        });
+
+        console.log('Login successful:', response.data);
+      } catch (error) {
+        console.error('Login failed:', error.response.data);
+      }
+    },
+
+    async register() {
+      if (!this.firstName || !this.lastName || !this.email.value || !this.password.value ||
+          this.email.error || this.password.error) {
+        console.error('Please fill in all required fields correctly.');
+        return;
+      }
+
+      try {
+        const response = await axios.post('http://localhost:3000/api/auth/register', {
+          name: this.firstName,
+          last_name: this.lastName,
+          email: this.email.value,
+          password: this.password.value,
+        });
+
+        console.log('Registration successful:', response.data);
+      } catch (error) {
+        console.error('Registration failed:', error.response.data);
+      }
     }
   },
 
@@ -145,22 +187,18 @@ export default {
       return this.lastName.length > 0;
     },
 
-    emailValid() {
-      return this.emailRegex.test(this.email.value);
-    },
-
-    passwordValid() {
-      return this.password.value.length > 0;
-    },
-
     loginValid() {
-      return this.emailValid && this.passwordValid;
+      return this.email.value && this.password.value && !this.email.error && !this.password.error;
     },
 
     registerValid() {
       return (
-        this.emailValid &&
-        this.passwordValid &&
+        this.firstName &&
+        this.lastName &&
+        this.email.value &&
+        this.password.value &&
+        !this.email.error &&
+        !this.password.error &&
         this.validFirstName &&
         this.validLastName
       );
@@ -297,3 +335,8 @@ input[type="text"], input[type="email"], input[type="password"] {
   }
 }
 </style>
+
+
+
+
+
