@@ -11,7 +11,7 @@
             <div class="title">Sign in</div>
             <div class="subtitle">
               Don't have an account?
-              <span class="subtitle-action" @click="signIn = !signIn">Create Account</span>
+              <span class="subtitle-action" @click="toggleSignIn">Create Account</span>
             </div>
           </div>
           <form @submit.prevent="login">
@@ -23,31 +23,34 @@
                 aria-label="E-mail"
                 type="email"
                 class="w100"
-                :class="{ invalid: email.value && !emailRegex.test(email.value) }"
+                :class="{ invalid: email.error }"
                 ref="email"
                 placeholder="Email"
                 autofocus
                 @blur="validateEmail"
-                @keydown="validateEmail"
+                @input="validateLoginFields"
                 v-model="email.value"
               />
+              <div v-if="email.error" class="errorMessage">Please enter a valid email address.</div>
               <input
                 required
                 aria-required="true"
                 type="password"
                 class="w100"
-                :class="{ invalid: password.value && !passwordRegex.test(password.value) }"
+                :class="{ invalid: password.error }"
                 placeholder="Password"
                 v-model="password.value"
                 @blur="validatePassword"
-                @keydown="validatePassword"
+                @input="validateLoginFields"
               />
+              <div v-if="password.error" class="errorMessage">Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.</div>
             </div>
             <input
               type="submit"
               value="Submit"
               class="action"
               :class="{ 'action-disabled': !loginValid }"
+              :disabled="!loginValid"
             />
           </form>
         </div>
@@ -60,7 +63,7 @@
             <div class="title">Create an Account</div>
             <div class="subtitle">
               Already have an account?
-              <span class="subtitle-action" @click="signIn = !signIn">Sign In</span>
+              <span class="subtitle-action" @click="toggleSignIn">Sign In</span>
             </div>
           </div>
           <form @submit.prevent="register">
@@ -83,17 +86,28 @@
                 class="w100"
                 placeholder="Email"
                 v-model="email.value"
-                :class="{ invalid: email.value && !emailRegex.test(email.value) }"
+                :class="{ invalid: email.error }"
+                @blur="validateEmail"
+                @input="validateRegisterFields"
               />
+              <div v-if="email.error" class="errorMessage">Please enter a valid email address.</div>
               <input
                 type="password"
                 class="w100"
                 placeholder="Password"
                 v-model="password.value"
-                :class="{ invalid: password.value && !passwordRegex.test(password.value) }"
+                :class="{ invalid: password.error }"
+                @blur="validatePassword"
+                @input="validateRegisterFields"
               />
+              <div v-if="password.error" class="errorMessage">Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.</div>
             </div>
-            <button class="action" :class="{ 'action-disabled': !registerValid }">
+            <button
+              type="submit"
+              class="action"
+              :class="{ 'action-disabled': !registerValid }"
+              :disabled="!registerValid"
+            >
               Create Account
             </button>
           </form>
@@ -110,7 +124,7 @@ export default {
   data() {
     return {
       emailRegex: /^[\w.-]+@[\w.-]+\.\w+$/,
-      passwordRegex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
+      passwordRegex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
 
       firstName: "",
       lastName: "",
@@ -138,8 +152,32 @@ export default {
       this.password.error = !this.passwordRegex.test(this.password.value);
     },
 
+    validateLoginFields() {
+      this.email.error = !this.emailRegex.test(this.email.value);
+      this.password.error = !this.passwordRegex.test(this.password.value);
+    },
+
+    validateRegisterFields() {
+      this.email.error = !this.emailRegex.test(this.email.value);
+      this.password.error = !this.passwordRegex.test(this.password.value);
+    },
+
+    toggleSignIn() {
+      this.signIn = !this.signIn;
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.firstName = "";
+      this.lastName = "";
+      this.email.value = "";
+      this.password.value = "";
+      this.email.error = false;
+      this.password.error = false;
+    },
+
     async login() {
-      if (!this.email.value || !this.password.value || this.email.error || this.password.error) {
+      if (!this.loginValid) {
         console.error('Please fill in all required fields correctly.');
         return;
       }
@@ -151,14 +189,14 @@ export default {
         });
 
         console.log('Login successful:', response.data);
+        // Aquí puedes redirigir al usuario a otra página o realizar alguna otra acción
       } catch (error) {
-        console.error('Login failed:', error.response.data);
+        console.error('Login failed:', error.response ? error.response.data : error.message);
       }
     },
 
     async register() {
-      if (!this.firstName || !this.lastName || !this.email.value || !this.password.value ||
-          this.email.error || this.password.error) {
+      if (!this.registerValid) {
         console.error('Please fill in all required fields correctly.');
         return;
       }
@@ -172,8 +210,9 @@ export default {
         });
 
         console.log('Registration successful:', response.data);
+        this.toggleSignIn(); // Redirigir al formulario de inicio de sesión
       } catch (error) {
-        console.error('Registration failed:', error.response.data);
+        console.error('Registration failed:', error.response ? error.response.data : error.message);
       }
     }
   },
@@ -203,6 +242,10 @@ export default {
         this.validLastName
       );
     }
+  },
+
+  mounted() {
+    this.resetForm();
   }
 };
 </script>
@@ -335,6 +378,12 @@ input[type="text"], input[type="email"], input[type="password"] {
   }
 }
 </style>
+
+
+
+
+
+
 
 
 
