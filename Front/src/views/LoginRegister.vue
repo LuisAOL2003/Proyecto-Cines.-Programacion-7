@@ -119,6 +119,7 @@
 
 <script>
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default {
   data() {
@@ -188,6 +189,12 @@ export default {
           password: this.password.value,
         });
 
+        const { accessToken, refreshToken } = response.data;
+
+        // Guarda los tokens en cookies
+        Cookies.set('accessToken', accessToken, { expires: 1 / 96 }); // Expira en 15 minutos
+        Cookies.set('refreshToken', refreshToken, { expires: 30 }); // Expira en 30 días
+
         console.log('Login successful:', response.data);
         // Aquí puedes redirigir al usuario a otra página o realizar alguna otra acción
       } catch (error) {
@@ -213,6 +220,19 @@ export default {
         this.toggleSignIn(); // Redirigir al formulario de inicio de sesión
       } catch (error) {
         console.error('Registration failed:', error.response ? error.response.data : error.message);
+      }
+    },
+
+    async fetchProtectedData() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/protected-route', {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('accessToken')}`
+          }
+        });
+        console.log('Protected data:', response.data);
+      } catch (error) {
+        console.error('Failed to fetch protected data:', error.response ? error.response.data : error.message);
       }
     }
   },
@@ -248,7 +268,9 @@ export default {
     this.resetForm();
   }
 };
+
 </script>
+
 
 <style scoped lang="scss">
 @mixin box {

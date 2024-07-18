@@ -1,4 +1,3 @@
-
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../config/db.js';
@@ -38,14 +37,12 @@ export const registerUser = async (req, res) => {
     const roleId = roleResult.rows[0].id_rol;
 
     const hashedPassword = await bcrypt.hash(password, 10); // Encriptar la contraseña
-    const result = await pool.query(
-      'INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, ID_Rol) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    await pool.query(
+      'INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, ID_Rol) VALUES ($1, $2, $3, $4, $5)',
       [name, last_name, email, hashedPassword, roleId]
     );
 
-    const tokens = await generateAndSaveTokens(result.rows[0]);
-
-    res.status(201).json(tokens);
+    res.status(201).json({ message: 'Usuario registrado exitosamente' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
