@@ -29,9 +29,12 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <router-link to="/login" class="button is-dark">
+            <button v-if="!isAdminView" class="button is-dark" @click="$router.push('/login')">
               <strong>Sign In</strong>
-            </router-link>
+            </button>
+            <button v-else class="button is-dark" @click="logout">
+              <strong>Log Out</strong>
+            </button>
           </div>
         </div>
       </div>
@@ -41,16 +44,18 @@
 
 <script>
 export default {
-  name: 'Nav',
-  methods: {
-    login() {
-      // Redirige a la ruta de inicio de sesión
-      this.$router.push('/login');
+  props: {
+    isAdminView: {
+      type: Boolean,
+      required: true,
     },
+  },
+  methods: {
     logout() {
-      console.log('Implementa la lógica de cierre de sesión aquí');
-    }
-  }
+      this.$emit('logout');
+      this.$router.push('/'); // Redirige a la página de inicio
+    },
+  },
 };
 </script>
 

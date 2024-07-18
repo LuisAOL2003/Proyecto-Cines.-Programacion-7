@@ -1,28 +1,59 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/HomeView.vue';
-import About from '../views/AboutView.vue';
-import LoginRegister from '../views/LoginRegister.vue'; // Cambiamos la importación a LoginRegister.vue
+import HomeView from '../views/HomeView.vue';
+import AboutView from '../views/AboutView.vue';
+import LoginRegister from '../views/LoginRegister.vue';
+import AdminRegistered from '../views/AdminRegistered.vue';
+import MovieCreate from '../views/MovieCreate.vue';
+import CinemaSingle from '../views/CinemaSingle.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: HomeView,
+    meta: {
+      isAdminView: false,
+    },
   },
   {
     path: '/about',
     name: 'about',
-    component: About,
+    component: AboutView,
+    meta: {
+      isAdminView: false,
+    },
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginRegister,
+    meta: {
+      isAdminView: false,
+    },
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminRegistered,
+    meta: {
+      isAdminView: true,
+    },
+  },
+  {
+    path: '/movie-create',
+    name: 'movieCreate',
+    component: MovieCreate,
+    meta: {
+      isAdminView: true,
+    },
   },
   {
     path: '/event/:id',
     name: 'eventSingle',
-    component: () => import('../views/CinemaSingle.vue'),
-  },
-  {
-    path: '/login', // Ruta para la página de login-register
-    name: 'login',
-    component: LoginRegister,
+    component: CinemaSingle,
+    meta: {
+      isAdminView: false,
+    },
   },
 ];
 
@@ -32,3 +63,4 @@ const router = createRouter({
 });
 
 export default router;
+

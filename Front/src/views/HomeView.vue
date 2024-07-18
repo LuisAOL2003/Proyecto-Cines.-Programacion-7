@@ -20,13 +20,14 @@
 </template>
 
 <script>
-  import EventsList from '../components/CinemaList';
-  export default {
-    name: 'home',
-    components: {
-      EventsList,
-    },
-  };
+import EventsList from '../components/CinemaList.vue';
+
+export default {
+  name: 'home',
+  components: {
+    EventsList,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -60,7 +61,7 @@
       }
 
       .subtitle {
-        text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
+        text-shadow: 4px 4px 4px rgba(255, 255, 255, 0.7);
         font-size: 1.5rem;
 
         @media (min-width: 768px) {
@@ -95,4 +96,9 @@
     }
   }
 }
+
 </style>
+
+
+
+

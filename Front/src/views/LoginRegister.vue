@@ -6,7 +6,7 @@
           <div class="top">
             <img
               class="logo"
-              src="https://res.cloudinary.com/dc3c8nrut/image/upload/v1685298768/logo-placeholder_l3yodl.png"
+              src="../assets/logocompleto.png"
             />
             <div class="title">Sign in</div>
             <div class="subtitle">
@@ -58,7 +58,7 @@
           <div class="top">
             <img
               class="logo"
-              src="https://res.cloudinary.com/dc3c8nrut/image/upload/v1685298768/logo-placeholder_l3yodl.png"
+              src="../assets/logocompleto.png"
             />
             <div class="title">Create an Account</div>
             <div class="subtitle">

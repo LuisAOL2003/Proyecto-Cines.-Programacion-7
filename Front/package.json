@@ -16,6 +16,8 @@
     "bulma": "^1.0.1",
     "core-js": "^3.8.3",
     "register-service-worker": "^1.7.2",
+    "swiper": "^11.1.5",
+    "vue-carousel": "^0.18.0",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
