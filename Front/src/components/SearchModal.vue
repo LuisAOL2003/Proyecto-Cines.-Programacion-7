@@ -1,10 +1,10 @@
 <template>
   <div class="search-modal">
-    <h2 class="modal-title">Buscar película</h2>
+    <h2>Buscar película</h2>
     <input type="text" v-model="searchQuery" @input="searchMovie" placeholder="Buscar película..." />
     <div v-if="movie">
       <h3>{{ movie.title }}</h3>
-      <img v-if="movie.imageUrl" :src="movie.imageUrl" alt="Poster de la película" class="movie-image" />
+      <img :src="movie.imageUrl" :alt="movie.title" class="movie-image" />
       <form @submit.prevent="submitForm">
         <label for="title">Título</label>
         <input type="text" id="title" v-model="movie.title" />
@@ -27,13 +27,17 @@
         <label for="originalLanguage">Idioma Original</label>
         <input type="text" id="originalLanguage" v-model="movie.originalLanguage" />
 
-        <button type="submit">Guardar Película</button>
+        <div class="button-container">
+          <button type="submit">Guardar Película</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   name: 'SearchModal',
   data() {
@@ -63,8 +67,29 @@ export default {
         this.movie = null;
       }
     },
-    submitForm() {
-      this.$emit('add-movie', this.movie);
+    async submitForm() {
+      try {
+        const response = await fetch('http://localhost:3000/api/movies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(this.movie),
+        });
+        if (!response.ok) {
+          throw new Error('Error saving movie');
+        }
+        const data = await response.json();
+        this.$emit('add-movie', data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'La película se ha guardado con éxito',
+        });
+      } catch (error) {
+        console.error('Error saving movie:', error);
+      }
     },
   },
 };
@@ -75,14 +100,18 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  max-width: 400px;
+  max-width: 700px; /* Ampliar el modal */
   margin: auto;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-bottom: 20px; /* Margen inferior para evitar cercanía al footer */
 }
 
-.modal-title {
+.search-modal h2 {
   margin-bottom: 20px;
-  color: #333;
+  text-align: center;
+  color: black; /* Color negro para el h2 */
+  font-size: 24px; /* Tamaño de fuente más grande para el h2 */
 }
 
 .search-modal input,
@@ -94,11 +123,16 @@ export default {
   border-radius: 4px;
 }
 
+.search-modal textarea {
+  height: 150px; /* Altura más grande para la descripción */
+  resize: none; /* Eliminar la capacidad de redimensionar */
+}
+
 .search-modal label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #333;
+  color: black; /* Color negro para los labels */
 }
 
 .search-modal h3 {
@@ -106,10 +140,18 @@ export default {
   color: #333;
 }
 
-.movie-image {
-  width: 100%;
+.search-modal img.movie-image {
+  max-width: 100%;
   height: auto;
-  margin: 10px 0;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; /* Centrar la imagen */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 .search-modal button {
@@ -121,3 +163,6 @@ export default {
   cursor: pointer;
 }
 </style>
+
+
+

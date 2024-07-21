@@ -6,7 +6,7 @@ import verifyAdmin from '../middlewares/verifyAdmin.js';
 const router = express.Router();
 
 // Rutas para la cartelera
-router.post('/cartelera', verifyToken, verifyAdmin, createCartelera); // Solo administradores pueden crear cartelera
+router.post('/cartelera',  createCartelera); // Solo administradores pueden crear cartelera
 router.get('/cartelera/:id', verifyToken, getCarteleraById); // Obtener una cartelera por ID (protegido)
 router.put('/cartelera/:id', verifyToken, verifyAdmin, updateCartelera); // Solo administradores pueden actualizar cartelera
 router.delete('/cartelera/:id', verifyToken, verifyAdmin, deleteCartelera); // Solo administradores pueden eliminar cartelera

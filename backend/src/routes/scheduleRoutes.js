@@ -6,7 +6,7 @@ import verifyAdmin from '../middlewares/verifyAdmin.js';
 const router = express.Router();
 
 // Rutas para los horarios
-router.post('/schedules', verifyToken, verifyAdmin, createSchedule); // Solo administradores pueden crear horarios
+router.post('/schedules',  createSchedule); // Solo administradores pueden crear horarios
 router.get('/schedules', verifyToken, getAllSchedules); // Obtener todos los horarios (accesible para todos)
 router.get('/schedules/:id', verifyToken, getScheduleById); // obtener un horario por ID
 router.put('/schedules/:id', verifyToken, verifyAdmin, updateSchedule); // Solo administradores pueden actualizar horarios

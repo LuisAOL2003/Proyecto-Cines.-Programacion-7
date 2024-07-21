@@ -3,9 +3,11 @@ import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
 import LoginRegister from '../views/LoginRegister.vue';
 import AdminRegistered from '../views/AdminRegistered.vue';
-import UserRegistered from '../views/UserRegistered.vue'; // Aquí cambia el nombre para el componente UserRegistered
+import UserRegistered from '../views/UserRegistered.vue'; 
 import MovieCreate from '../views/MovieCreate.vue';
 import CinemaSingle from '../views/CinemaSingle.vue';
+import AssignFunctions from '../views/AssignFunctions.vue'; 
+
 
 const routes = [
   {
@@ -54,6 +56,14 @@ const routes = [
     component: MovieCreate,
     meta: {
       isAdminView: true,
+    },
+  },
+  {
+    path: '/assign-functions',
+    name: 'assignFunctions',
+    component: AssignFunctions,
+    meta: {
+      isAdminView: true, 
     },
   },
   {

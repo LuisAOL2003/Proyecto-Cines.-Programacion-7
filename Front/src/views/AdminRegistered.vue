@@ -13,7 +13,7 @@
                 Agregar Película
               </button>
               <button class="button is-dark" @click="addSchedule">
-                Agregar Horario
+                Asignar Funcion
               </button>
             </div>
           </div>
