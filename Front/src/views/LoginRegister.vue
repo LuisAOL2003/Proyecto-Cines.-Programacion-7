@@ -47,7 +47,7 @@
             </div>
             <input
               type="submit"
-              value="Submit"
+              value="Sign in"
               class="action"
               :class="{ 'action-disabled': !loginValid }"
               :disabled="!loginValid"

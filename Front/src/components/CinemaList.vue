@@ -6,10 +6,8 @@
       <swiper :slides-per-view="4" :space-between="30" navigation>
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="movie in movies" :key="movie.id">
-          <div class="movie-card" :style="{ backgroundColor: movie.color }">
-            <h2 class="title is-4 has-text-black">{{ movie.name }}</h2>
-          </div>
+        <swiper-slide v-for="movie in movies" :key="movie.id_pelicula">
+          <CinemaCard :event="movie" />
         </swiper-slide>
       </swiper>
     </div>
@@ -20,10 +18,8 @@
       <swiper :slides-per-view="4" :space-between="30" navigation>
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="event in events" :key="event.id">
-          <div class="movie-card" :style="{ backgroundColor: event.color }">
-            <h2 class="title is-4 has-text-black">{{ event.name }}</h2>
-          </div>
+        <swiper-slide v-for="event in events" :key="event.ID_cartelera">
+          <CinemaCard :event="event" />
         </swiper-slide>
       </swiper>
     </div>
@@ -34,10 +30,8 @@
       <swiper :slides-per-view="4" :space-between="30" navigation>
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="premiere in premieres" :key="premiere.id">
-          <div class="movie-card" :style="{ backgroundColor: premiere.color }">
-            <h2 class="title is-4 has-text-black">{{ premiere.name }}</h2>
-          </div>
+        <swiper-slide v-for="premiere in premieres" :key="premiere.id_estreno">
+          <CinemaCard :event="premiere" />
         </swiper-slide>
       </swiper>
     </div>
@@ -48,6 +42,7 @@
 import { Swiper, SwiperSlide, SwiperButtonPrev, SwiperButtonNext } from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
 import SwiperCore, { Navigation } from 'swiper';
+import CinemaCard from './CinemaCard.vue';
 
 SwiperCore.use([Navigation]);
 
@@ -58,34 +53,29 @@ export default {
     SwiperSlide,
     SwiperButtonPrev,
     SwiperButtonNext,
+    CinemaCard
   },
   data() {
     return {
-      movies: [
-        { id: 1, name: 'Movie 1', color: '#ff0000' },
-        { id: 2, name: 'Movie 2', color: '#00ff00' },
-        { id: 3, name: 'Movie 3', color: '#0000ff' },
-        { id: 4, name: 'Movie 4', color: '#ffff00' },
-        { id: 5, name: 'Movie 5', color: '#ff00ff' },
-        { id: 6, name: 'Movie 6', color: '#00ffff' },
-      ],
-      events: [
-        { id: 1, name: 'Event 1', color: '#ff0000' },
-        { id: 2, name: 'Event 2', color: '#00ff00' },
-        { id: 3, name: 'Event 3', color: '#0000ff' },
-        { id: 4, name: 'Event 4', color: '#ffff00' },
-        { id: 5, name: 'Event 5', color: '#ff00ff' },
-        { id: 6, name: 'Event 6', color: '#00ffff' },
-      ],
-      premieres: [
-        { id: 1, name: 'Premiere 1', color: '#ff0000' },
-        { id: 2, name: 'Premiere 2', color: '#00ff00' },
-        { id: 3, name: 'Premiere 3', color: '#0000ff' },
-        { id: 4, name: 'Premiere 4', color: '#ffff00' },
-        { id: 5, name: 'Premiere 5', color: '#ff00ff' },
-        { id: 6, name: 'Premiere 6', color: '#00ffff' },
-      ],
+      movies: [],
+      events: [],
+      premieres: [],
     };
+  },
+  async created() {
+    try {
+      const [moviesResponse, eventsResponse, premieresResponse] = await Promise.all([
+        fetch('http://localhost:3000/api/movies'),
+        fetch('http://localhost:3000/api/cartelera/type/Cartelera'), // Asegúrate de pasar el tipo correcto
+        fetch('http://localhost:3000/api/cartelera/type/Próximo estreno')
+      ]);
+
+      this.movies = await moviesResponse.json();
+      this.events = await eventsResponse.json();
+      this.premieres = await premieresResponse.json();
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+    }
   },
 };
 </script>
@@ -132,6 +122,8 @@ export default {
   right: 10px; /* Ajuste de posición de la flecha siguiente */
 }
 </style>
+
+
 
 
 

@@ -73,9 +73,18 @@ export const getCarteleraByType = async (req, res) => {
   const { type } = req.params;
 
   try {
-    const result = await pool.query('SELECT * FROM Cartelera WHERE Tipo = $1', [type]);
-    res.json(result.rows);
+    const query = `
+      SELECT c.ID_cartelera, p.Título, p.ImagenURL, p.Descripción, p.Duración, p.Clasificación, p.Género, p.FechaEstreno, p.IdiomaOriginal
+      FROM Cartelera c
+      JOIN Películas p ON c.ID_Película = p.ID_pelicula
+      WHERE c.Tipo = $1
+    `;
+    const result = await pool.query(query, [type]);
+    res.json(result.rows); // Envía los datos en formato JSON
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error('Error al obtener la cartelera:', error); // Log para depuración
+    res.status(500).json({ error: 'Error interno del servidor' }); // Mensaje de error en formato JSON
   }
 };
+
+

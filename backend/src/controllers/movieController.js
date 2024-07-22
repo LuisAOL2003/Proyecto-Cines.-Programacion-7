@@ -35,6 +35,7 @@ export const getMovie = async (req, res) => {
 export const getAllMovies = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM Películas');
+    console.log(result.rows); // Verifica que `ImagenURL` esté presente
     res.json(result.rows);
   } catch (error) {
     res.status(400).json({ error: error.message });

@@ -1,10 +1,9 @@
 <template>
   <div class="event-card">
-    <div :style="{ backgroundImage: 'url(' + event.featuredImage + ')' }" class="card">
+    <div :style="{ backgroundImage: 'url(' + (event.imagenurl || 'https://via.placeholder.com/300') + ')' }" class="card">
       <div class="card-content">
-        <h2 class="is-size-4 has-text-weight-bold">{{ event.name }}</h2>
-        <small class="event-date">{{ event.date }}</small>
-        <span>{{ event.location }}</span>
+        <h2 class="is-size-4 has-text-weight-bold">{{ event.título }}</h2>
+        <button class="buy-ticket-button">Comprar Boleto</button>
       </div>
     </div>
   </div>
@@ -35,39 +34,50 @@ export default {
   text-align: center;
   position: absolute;
   width: 100%;
-}
+  transition: transform 0.3s;
+  display: flex;
+  align-items: flex-end; /* Align content to the bottom */
+  
+  &:hover {
+    transform: scale(1.05);
+  }
 
-.card-content {
-  padding-top: 50px;
-  position: absolute;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.35);
-  top: 0;
-  padding: 10px;
-  height: 100%;
-  width: 100%;
-}
+  .card-content {
+    position: relative;
+    width: 100%;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align content */
+    justify-content: center; /* Center content vertically */
+    
+    &:hover {
+      opacity: 1;
+    }
+    
+    .buy-ticket-button {
+      margin-top: 10px; /* Space between title and button */
+      padding: 10px 20px;
+      background-color: #ff6347; /* Color of the button */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
 
-span {
-  font-size: 18px;
-  text-align: center;
-  width: 100%;
-  position: absolute;
-  bottom: 10px;
-  right: 0;
+      &:hover {
+        background-color: #ff4500; /* Darker color on hover */
+      }
+    }
+  }
 }
 
 h2 {
-  margin-top: 10px;
-}
-
-.event-date {
-  background-color: #151515;
-  color: #fff;
-  font-size: 0.75em;
-  padding: 2px 10px;
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin: 0;
 }
 </style>
