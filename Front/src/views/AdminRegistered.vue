@@ -40,8 +40,7 @@
       }
   
       function addSchedule() {
-        console.log('Agregar Horario');
-        // Implementa la lógica para agregar horario aquí
+        router.push('/assign-functions'); // Redirige a la vista de creación de funciones
       }
   
       return {
