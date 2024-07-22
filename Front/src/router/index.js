@@ -7,6 +7,8 @@ import UserRegistered from '../views/UserRegistered.vue';
 import MovieCreate from '../views/MovieCreate.vue';
 import CinemaSingle from '../views/CinemaSingle.vue';
 import AssignFunctions from '../views/AssignFunctions.vue'; 
+import MovieDetail from '../views/MovieDetail.vue';
+import Seats from '../views/Seats.vue';
 
 
 const routes = [
@@ -66,6 +68,20 @@ const routes = [
       isAdminView: true, 
     },
   },
+  {
+    path: '/movie/:id',
+    name: 'MovieDetails',
+    component: MovieDetail,
+    props: true
+  },
+  { 
+    path: '/seats', 
+    name: 'seats', 
+    component: Seats, // Asegúrate de que esta línea esté correcta 
+    meta: { 
+      isAdminView: true, 
+    }, 
+  }, 
   {
     path: '/event/:id',
     name: 'eventSingle',

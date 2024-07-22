@@ -8,7 +8,7 @@
             Asegurate de Comprar tus entradas hoy!
           </h2>
           <div class="button-block">
-            <button class="button is-xl is-dark">
+            <button @click="goToLogin" class="button is-xl is-dark">
               Inicia Sesion para comprar tus boletos: 
             </button>
           </div>
@@ -27,6 +27,11 @@ export default {
   components: {
     EventsList,
   },
+  methods: {
+    goToLogin() {
+      this.$router.push({ name: 'login' });
+    }
+  }
 };
 </script>
 
@@ -96,9 +101,4 @@ export default {
     }
   }
 }
-
 </style>
-
-
-
-

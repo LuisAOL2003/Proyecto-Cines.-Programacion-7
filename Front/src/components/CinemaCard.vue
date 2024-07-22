@@ -3,7 +3,7 @@
     <div :style="{ backgroundImage: 'url(' + (event.imagenurl || 'https://via.placeholder.com/300') + ')' }" class="card">
       <div class="card-content">
         <h2 class="is-size-4 has-text-weight-bold">{{ event.título }}</h2>
-        <button class="buy-ticket-button">Comprar Boleto</button>
+        <button class="buy-ticket-button" @click="goToDetails">Comprar Boleto</button>
       </div>
     </div>
   </div>
@@ -15,6 +15,22 @@ export default {
     event: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    goToDetails() {
+      const movieId = this.event.id_pelicula || this.event.id_cartelera;
+
+      console.log(movieId)
+
+      console.log(this.event)
+
+      if (!movieId) {
+        console.error('ID no disponible para la navegación.');
+        return;
+      }
+      
+      this.$router.push({ name: 'MovieDetails', params: { id: movieId } });
     }
   }
 };
@@ -36,7 +52,7 @@ export default {
   width: 100%;
   transition: transform 0.3s;
   display: flex;
-  align-items: flex-end; /* Align content to the bottom */
+  align-items: flex-end;
   
   &:hover {
     transform: scale(1.05);
@@ -52,17 +68,17 @@ export default {
     transition: opacity 0.3s;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align content */
-    justify-content: center; /* Center content vertically */
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       opacity: 1;
     }
     
     .buy-ticket-button {
-      margin-top: 10px; /* Space between title and button */
+      margin-top: 10px;
       padding: 10px 20px;
-      background-color: #ff6347; /* Color of the button */
+      background-color: #ff6347;
       color: #fff;
       border: none;
       border-radius: 5px;
@@ -71,7 +87,7 @@ export default {
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #ff4500; /* Darker color on hover */
+        background-color: #ff4500;
       }
     }
   }
@@ -81,3 +97,6 @@ h2 {
   margin: 0;
 }
 </style>
+
+
+

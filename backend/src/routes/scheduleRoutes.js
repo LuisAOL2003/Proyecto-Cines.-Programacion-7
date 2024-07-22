@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSchedule, getAllSchedules, getScheduleById, updateSchedule, deleteSchedule } from '../controllers/scheduleController.js';
+import { createSchedule, getAllSchedules, getScheduleById, updateSchedule, deleteSchedule, getSchedulesByMovieId } from '../controllers/scheduleController.js';
 import verifyToken from '../middlewares/verifyToken.js';
 import verifyAdmin from '../middlewares/verifyAdmin.js';
 
@@ -11,5 +11,7 @@ router.get('/schedules', verifyToken, getAllSchedules); // Obtener todos los hor
 router.get('/schedules/:id', verifyToken, getScheduleById); // obtener un horario por ID
 router.put('/schedules/:id', verifyToken, verifyAdmin, updateSchedule); // Solo administradores pueden actualizar horarios
 router.delete('/schedules/:id', verifyToken, verifyAdmin, deleteSchedule); // Solo administradores pueden eliminar horarios
+router.get('/api/schedules/movie/:id', getSchedulesByMovieId);
+
 
 export default router;

@@ -7,44 +7,55 @@
   </div>
 </template>
 
-<script>
-import Nav from './components/partials/Nav.vue';
-import NavAdmin from './components/partials/NavAdmin.vue';
-import Footer from './components/partials/Footer.vue';
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-
-export default {
-  name: 'App',
-  components: {
-    Nav,
-    NavAdmin,
-    Footer,
-  },
-  setup() {
-    const isAdminView = ref(false);
-    const route = useRoute();
-
-    function handleRouteChange(route) {
-      isAdminView.value = route.meta.isAdminView || false;
-    }
-
-    function handleLogout() {
-      isAdminView.value = false;
-    }
-
-    onMounted(() => {
-      handleRouteChange(route);
-    });
-
-    return {
-      isAdminView,
-      handleRouteChange,
-      handleLogout,
-    };
-  },
-};
-</script>
+<script> 
+import Nav from './components/partials/Nav.vue'; 
+import NavAdmin from './components/partials/NavAdmin.vue'; 
+import Footer from './components/partials/Footer.vue'; 
+import { ref, onMounted, watch } from 'vue'; 
+import { useRoute, useRouter } from 'vue-router'; 
+ 
+export default { 
+  name: 'App', 
+  components: { 
+    Nav, 
+    NavAdmin, 
+    Footer, 
+  }, 
+  setup() { 
+    const isAdminView = ref(false); 
+    const isMovieCreateView = ref(false); 
+    const route = useRoute(); 
+    const router = useRouter(); 
+ 
+    function handleRouteChange(route) { 
+      isAdminView.value = route.meta.isAdminView || false; 
+      isMovieCreateView.value = route.name === 'movieCreate'; 
+    } 
+ 
+    function handleLogout() { 
+      isAdminView.value = false; 
+      isMovieCreateView.value = false; 
+      localStorage.removeItem('token'); // Asegúrate de cerrar sesión correctamente 
+      router.push('/'); // Redirigir a la página de inicio después de cerrar sesión 
+    } 
+ 
+    watch(route, () => { 
+      handleRouteChange(route); 
+    }); 
+ 
+    onMounted(() => { 
+      handleRouteChange(route); 
+    }); 
+ 
+    return { 
+      isAdminView, 
+      isMovieCreateView, 
+      handleRouteChange, 
+      handleLogout, 
+    }; 
+  }, 
+}; 
+</script> 
 
 <style lang="scss">
 #app {

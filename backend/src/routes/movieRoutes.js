@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/movies', saveMovie);
 router.put('/movies/:id', verifyToken, verifyAdmin, updateMovie);
 router.delete('/movies/:id', verifyToken, verifyAdmin, deleteMovie);
-router.get('/movies/:id', verifyToken, getMovie);
+router.get('/movies/:id', getMovie);
 router.get('/movies', getAllMovies);
 router.get('/movies/search/:query', searchMovies); // Ruta de búsqueda
 router.get('/movies/:id/schedules', verifyToken, getMovieSchedulesAndHallsController);

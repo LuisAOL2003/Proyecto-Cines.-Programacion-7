@@ -7,7 +7,7 @@
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
         <swiper-slide v-for="movie in movies" :key="movie.id_pelicula">
-          <CinemaCard :event="movie" />
+          <CinemaCard :event="movie" @click="goToMovieDetails(movie.id_pelicula, 'peliculas')" />
         </swiper-slide>
       </swiper>
     </div>
@@ -18,8 +18,8 @@
       <swiper :slides-per-view="4" :space-between="30" navigation>
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="event in events" :key="event.ID_cartelera">
-          <CinemaCard :event="event" />
+        <swiper-slide v-for="event in events" :key="event.id_cartelera">
+          <CinemaCard :event="event" @click="goToMovieDetails(event.id_pelicula, 'Cartelera')" />
         </swiper-slide>
       </swiper>
     </div>
@@ -30,8 +30,8 @@
       <swiper :slides-per-view="4" :space-between="30" navigation>
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="premiere in premieres" :key="premiere.id_estreno">
-          <CinemaCard :event="premiere" />
+        <swiper-slide v-for="premiere in premieres" :key="premiere.id_cartelera">
+          <CinemaCard :event="premiere" @click="goToMovieDetails(premiere.id_pelicula, 'Próximo estreno')" />
         </swiper-slide>
       </swiper>
     </div>
@@ -66,16 +66,25 @@ export default {
     try {
       const [moviesResponse, eventsResponse, premieresResponse] = await Promise.all([
         fetch('http://localhost:3000/api/movies'),
-        fetch('http://localhost:3000/api/cartelera/type/Cartelera'), // Asegúrate de pasar el tipo correcto
+        fetch('http://localhost:3000/api/cartelera/type/Cartelera'),
         fetch('http://localhost:3000/api/cartelera/type/Próximo estreno')
       ]);
 
       this.movies = await moviesResponse.json();
       this.events = await eventsResponse.json();
       this.premieres = await premieresResponse.json();
+      
+      console.log('Movies:', this.movies);
+      console.log('Events:', this.events);
+      console.log('Premieres:', this.premieres);
     } catch (error) {
       console.error('Error al cargar datos:', error);
     }
+  },
+  methods: {
+    goToMovieDetails(id, type) {
+      this.$router.push({ name: 'MovieDetails', params: { id }, query: { type } });
+    },
   },
 };
 </script>
@@ -104,7 +113,7 @@ export default {
 
 .subtitle,
 .title {
-  color: #fffefe; /* Cambio de color del texto a negro */
+  color: #fffefe; /* Cambio de color del texto a blanco */
   margin-bottom: 20px;
 }
 
@@ -122,14 +131,3 @@ export default {
   right: 10px; /* Ajuste de posición de la flecha siguiente */
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
