@@ -155,7 +155,7 @@ export default {
 }
 
 .search-modal button {
-  background-color: #007bff;
+  background-color: #ff6347;
   color: white;
   padding: 10px;
   border: none;

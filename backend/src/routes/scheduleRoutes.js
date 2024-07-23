@@ -11,7 +11,7 @@ router.get('/schedules', verifyToken, getAllSchedules); // Obtener todos los hor
 router.get('/schedules/:id', verifyToken, getScheduleById); // obtener un horario por ID
 router.put('/schedules/:id', verifyToken, verifyAdmin, updateSchedule); // Solo administradores pueden actualizar horarios
 router.delete('/schedules/:id', verifyToken, verifyAdmin, deleteSchedule); // Solo administradores pueden eliminar horarios
-router.get('/api/schedules/movie/:id', getSchedulesByMovieId);
+router.get('/schedules/movie/:id', getSchedulesByMovieId);
 
 
 export default router;

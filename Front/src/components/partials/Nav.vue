@@ -74,4 +74,12 @@ nav {
     }
   }
 }
+
+button{
+  background-color: #ff6347;
+}
+
+button:hover {
+  background-color: #e5533c;
+}
 </style>

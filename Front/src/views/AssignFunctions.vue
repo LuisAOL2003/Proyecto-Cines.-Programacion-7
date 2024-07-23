@@ -226,7 +226,7 @@ select {
 }
 
 button {
-  background-color: #007bff;
+  background-color: #ff6347;
   color: white;
   padding: 10px;
   border: none;
@@ -235,6 +235,6 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #e5533c;
 }
 </style>

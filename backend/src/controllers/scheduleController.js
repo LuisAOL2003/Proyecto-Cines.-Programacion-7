@@ -75,7 +75,6 @@ export const getSchedulesByMovieId = async (req, res) => {
   }
 };
 
-
 // Actualizar un horario
 export const updateSchedule = async (req, res) => {
   const { id } = req.params;

@@ -106,5 +106,75 @@
     }, 
   }; 
   </script> 
-   
-  <style scoped></style>
+<style scoped>
+   .cartCinema { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+  } 
+  .cartCinema-showcase { 
+    display: flex; 
+    justify-content: center; 
+    margin-bottom: 10px; 
+  } 
+  .cartCinema-container { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+  } 
+  .cartCinema-container_screen { 
+    width: 100%; 
+    height: 40px; 
+    background: #000; 
+    margin-bottom: 10px; 
+  } 
+  .seat-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px; 
+  } 
+  .cartCinema-container_seatsRow { 
+    display: flex; 
+    flex-direction: row; 
+  } 
+  .seat { 
+    width: 30px; 
+    height: 30px; 
+    background: #444; 
+    margin: 2px; 
+    cursor: pointer; 
+  } 
+  .seat.selected { 
+    background: #6feaf6; 
+  } 
+  .seat.occupied { 
+    background: #fff; 
+  } 
+  .seat.invisible { 
+    visibility: hidden; 
+  } 
+  .seat-headers { 
+    display: flex; 
+    justify-content: center; 
+    margin-bottom: 10px; 
+    align-items: center; 
+  } 
+  .seat-header, .seat-header-empty { 
+    width: 30px; 
+    height: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: 1px solid #444; 
+  } 
+  .seat-label { 
+    width: 30px; 
+    height: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: 1px solid #444; 
+    margin-right: 5px; 
+  } 
+  </style>
