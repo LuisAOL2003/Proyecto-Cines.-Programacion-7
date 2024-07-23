@@ -71,7 +71,7 @@ export default {
     }
   },
   methods: {
-    selectSchedule(scheduleId) {
+    selectSchedule() {
       this.$router.push(`/seats`);
     }
   }
