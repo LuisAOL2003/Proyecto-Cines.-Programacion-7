@@ -120,6 +120,7 @@
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 
 export default {
   data() {
@@ -192,11 +193,23 @@ export default {
         const { accessToken, refreshToken } = response.data;
 
         // Guarda los tokens en cookies
-        Cookies.set('accessToken', accessToken, { expires: 1 / 96 }); // Expira en 15 minutos
+        Cookies.set('accessToken', accessToken, { expires: 1 / 46 }); // Expira en 30 minutos
         Cookies.set('refreshToken', refreshToken, { expires: 30 }); // Expira en 30 días
 
         console.log('Login successful:', response.data);
-        // Aquí puedes redirigir al usuario a otra página o realizar alguna otra acción
+
+        // Decodifica el token para obtener el rol del usuario
+        const decodedToken = jwtDecode(accessToken);
+        const userRole = decodedToken.role;
+
+        // Redirige según el rol del usuario
+        if (userRole === 'Administrador') {
+          this.$router.push('/admin');
+        } else if (userRole === 'Cliente') {
+          this.$router.push('/user');
+        } else {
+          this.$router.push('/');
+        }
       } catch (error) {
         console.error('Login failed:', error.response ? error.response.data : error.message);
       }
@@ -268,8 +281,8 @@ export default {
     this.resetForm();
   }
 };
-
 </script>
+
 
 
 <style scoped lang="scss">

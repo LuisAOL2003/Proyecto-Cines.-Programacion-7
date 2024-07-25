@@ -12,3 +12,4 @@ router.put('/seats/:id', verifyToken, verifyAdmin, updateSeat); // Solo administ
 router.delete('/seats/:id', verifyToken, verifyAdmin, deleteSeat); // Solo administradores pueden eliminar asientos
 
 export default router;
+

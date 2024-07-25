@@ -76,10 +76,10 @@ const routes = [
   },
   { 
     path: '/seats', 
-    name: 'seats', 
+    name: 'Seats', 
     component: Seats, // Asegúrate de que esta línea esté correcta 
     meta: { 
-      isAdminView: true, 
+      isAdminView: false, 
     }, 
   }, 
   {
