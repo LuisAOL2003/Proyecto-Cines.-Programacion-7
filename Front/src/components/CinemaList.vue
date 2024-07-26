@@ -1,133 +1,116 @@
 <template>
   <div class="events container">
-    <!-- Sección de Películas -->
-    <div class="movies">
-      <h2 class="subtitle is-3">Películas</h2>
-      <swiper :slides-per-view="4" :space-between="30" navigation>
-        <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
-        <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="movie in movies" :key="movie.id_pelicula">
-          <CinemaCard :event="movie" @click="goToMovieDetails(movie.id_pelicula, 'peliculas')" />
-        </swiper-slide>
-      </swiper>
+    <h2 class="subtitle is-3">Observa Nuestra Cartelera del Día de Hoy</h2>
+    <div class="columns is-multiline">
+      <div v-for="event in events" :key="event.id" class="column is-one-quarter">
+        <router-link :to="'/event/' + event.id">
+          <EventCard :event="event" />
+        </router-link>
+      </div>
     </div>
 
-    <!-- Sección de Cartelera -->
-    <div class="billboard">
-      <h2 class="subtitle is-3">Observa Nuestra Cartelera del Día de Hoy</h2>
-      <swiper :slides-per-view="4" :space-between="30" navigation>
-        <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
-        <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="event in events" :key="event.id_cartelera">
-          <CinemaCard :event="event" @click="goToMovieDetails(event.id_pelicula, 'Cartelera')" />
-        </swiper-slide>
-      </swiper>
-    </div>
-
-    <!-- Sección de Próximos Estrenos -->
+    <!-- Nueva sección de Próximos estrenos con más separación -->
     <div class="next-premieres">
       <h2 class="subtitle is-3">Próximos Estrenos</h2>
-      <swiper :slides-per-view="4" :space-between="30" navigation>
-        <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
-        <swiper-button-next class="swiper-button-next"></swiper-button-next>
-        <swiper-slide v-for="premiere in premieres" :key="premiere.id_cartelera">
-          <CinemaCard :event="premiere" @click="goToMovieDetails(premiere.id_pelicula, 'Próximo estreno')" />
-        </swiper-slide>
-      </swiper>
+      <div class="columns is-multiline">
+        <div v-for="event in premieres" :key="event.id" class="column is-one-quarter">
+          <router-link :to="'/event/' + event.id">
+            <EventCard :event="event" />
+          </router-link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide, SwiperButtonPrev, SwiperButtonNext } from 'swiper/vue';
-import 'swiper/swiper-bundle.css';
-import SwiperCore, { Navigation } from 'swiper';
-import CinemaCard from './CinemaCard.vue';
-
-SwiperCore.use([Navigation]);
+import EventCard from '@/components/CinemaCard';
 
 export default {
-  name: 'CinemaList',
+  name: 'EventsList',
   components: {
-    Swiper,
-    SwiperSlide,
-    SwiperButtonPrev,
-    SwiperButtonNext,
-    CinemaCard
+    EventCard,
   },
   data() {
     return {
-      movies: [],
-      events: [],
-      premieres: [],
+      events: [
+        {
+          id: 1,
+          name: 'Star Wars',
+          category: 'Science Fiction',
+          description: 'A long time ago in a galaxy far, far away...',
+          featuredImage: 'URL_DE_LA_IMAGEN_1',
+          location: 'Cinema 1',
+          date: '2024-07-14',
+          time: '19:00',
+        },
+        {
+          id: 2,
+          name: 'John Wick',
+          category: 'Action',
+          description: 'An ex-hitman comes out of retirement to track down the gangsters that killed his dog and took everything from him.',
+          featuredImage: 'URL_DE_LA_IMAGEN_2',
+          location: 'Cinema 2',
+          date: '2024-07-15',
+          time: '20:00',
+        },
+        {
+          id: 3,
+          name: 'My Little Pony',
+          category: 'Animation',
+          description: 'A magical adventure with your favorite ponies.',
+          featuredImage: 'URL_DE_LA_IMAGEN_3',
+          location: 'Cinema 3',
+          date: '2024-07-16',
+          time: '10:00',
+        },
+      ],
+      premieres: [
+        {
+          id: 4,
+          name: 'Spider-Man: No Way Home',
+          category: 'Superhero',
+          description: 'Spider-Man faces his greatest challenge yet.',
+          featuredImage: 'URL_DE_LA_IMAGEN_4',
+          location: 'Cinema 4',
+          date: '2024-07-17',
+          time: '18:00',
+        },
+        {
+          id: 5,
+          name: 'Avatar 2',
+          category: 'Science Fiction',
+          description: 'Return to the world of Pandora.',
+          featuredImage: 'URL_DE_LA_IMAGEN_5',
+          location: 'Cinema 5',
+          date: '2024-07-18',
+          time: '21:00',
+        },
+        {
+          id: 6,
+          name: 'Jurassic World: Dominion',
+          category: 'Adventure',
+          description: 'Dinosaurs walk the Earth once more.',
+          featuredImage: 'URL_DE_LA_IMAGEN_6',
+          location: 'Cinema 6',
+          date: '2024-07-19',
+          time: '17:00',
+        },
+      ],
     };
-  },
-  async created() {
-    try {
-      const [moviesResponse, eventsResponse, premieresResponse] = await Promise.all([
-        fetch('http://localhost:3000/api/movies'),
-        fetch('http://localhost:3000/api/cartelera/type/Cartelera'),
-        fetch('http://localhost:3000/api/cartelera/type/Próximo estreno')
-      ]);
-
-      this.movies = await moviesResponse.json();
-      this.events = await eventsResponse.json();
-      this.premieres = await premieresResponse.json();
-      
-      console.log('Movies:', this.movies);
-      console.log('Events:', this.events);
-      console.log('Premieres:', this.premieres);
-    } catch (error) {
-      console.error('Error al cargar datos:', error);
-    }
-  },
-  methods: {
-    goToMovieDetails(id, type) {
-      this.$router.push({ name: 'MovieDetails', params: { id }, query: { type } });
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .events {
-  margin-top: 50px;
+  margin-top: 100px;
   text-align: center;
   color: #fff; /* Color de texto claro para fondos oscuros */
 }
 
-.movie-card {
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1.5rem;
-}
-
-.movies,
-.billboard,
 .next-premieres {
-  margin-bottom: 50px;
-}
-
-.subtitle,
-.title {
-  color: #fffefe; /* Cambio de color del texto a blanco */
-  margin-bottom: 20px;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  color: #fff; /* Color de las flechas de navegación */
-}
-
-.swiper-button-prev::before,
-.swiper-button-next::before {
-  font-size: 20px; /* Tamaño de la flecha */
-}
-
-.swiper-button-next {
-  right: 10px; /* Ajuste de posición de la flecha siguiente */
+  margin-top: 50px;
+  color: #fff; /* Color de texto claro para fondos oscuros */
 }
 </style>

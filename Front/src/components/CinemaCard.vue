@@ -1,9 +1,10 @@
 <template>
   <div class="event-card">
-    <div :style="{ backgroundImage: 'url(' + (event.imagenurl || 'https://via.placeholder.com/300') + ')' }" class="card">
+    <div :style="{ backgroundImage: 'url(' + event.featuredImage + ')' }" class="card">
       <div class="card-content">
-        <h2 class="is-size-4 has-text-weight-bold">{{ event.título }}</h2>
-        <button class="buy-ticket-button" @click="goToDetails">Comprar Boleto</button>
+        <h2 class="is-size-4 has-text-weight-bold">{{ event.name }}</h2>
+        <small class="event-date">{{ event.date }}</small>
+        <span>{{ event.location }}</span>
       </div>
     </div>
   </div>
@@ -15,22 +16,6 @@ export default {
     event: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    goToDetails() {
-      const movieId = this.event.id_pelicula || this.event.id_cartelera;
-
-      console.log(movieId)
-
-      console.log(this.event)
-
-      if (!movieId) {
-        console.error('ID no disponible para la navegación.');
-        return;
-      }
-      
-      this.$router.push({ name: 'MovieDetails', params: { id: movieId } });
     }
   }
 };
@@ -50,53 +35,39 @@ export default {
   text-align: center;
   position: absolute;
   width: 100%;
-  transition: transform 0.3s;
-  display: flex;
-  align-items: flex-end;
-  
-  &:hover {
-    transform: scale(1.05);
-  }
+}
 
-  .card-content {
-    position: relative;
-    width: 100%;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    &:hover {
-      opacity: 1;
-    }
-    
-    .buy-ticket-button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #ff6347;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
+.card-content {
+  padding-top: 50px;
+  position: absolute;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+  top: 0;
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+}
 
-      &:hover {
-        background-color: #ff4500;
-      }
-    }
-  }
+span {
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
 }
 
 h2 {
-  margin: 0;
+  margin-top: 10px;
+}
+
+.event-date {
+  background-color: #151515;
+  color: #fff;
+  font-size: 0.75em;
+  padding: 2px 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>
-
-
-

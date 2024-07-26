@@ -8,7 +8,7 @@
             Asegurate de Comprar tus entradas hoy!
           </h2>
           <div class="button-block">
-            <button @click="goToLogin" class="button is-xl is-dark">
+            <button class="button is-xl is-dark">
               Inicia Sesion para comprar tus boletos: 
             </button>
           </div>
@@ -20,19 +20,13 @@
 </template>
 
 <script>
-import EventsList from '../components/CinemaList.vue';
-
-export default {
-  name: 'home',
-  components: {
-    EventsList,
-  },
-  methods: {
-    goToLogin() {
-      this.$router.push({ name: 'login' });
-    }
-  }
-};
+  import EventsList from '../components/CinemaList';
+  export default {
+    name: 'home',
+    components: {
+      EventsList,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -66,7 +60,7 @@ export default {
       }
 
       .subtitle {
-        text-shadow: 4px 4px 4px rgba(255, 255, 255, 0.7);
+        text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
         font-size: 1.5rem;
 
         @media (min-width: 768px) {

@@ -1,102 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AboutView from '../views/AboutView.vue';
-import LoginRegister from '../views/LoginRegister.vue';
-import AdminRegistered from '../views/AdminRegistered.vue';
-import UserRegistered from '../views/UserRegistered.vue';
-import MovieCreate from '../views/MovieCreate.vue';
-import CinemaSingle from '../views/CinemaSingle.vue';
-import AssignFunctions from '../views/AssignFunctions.vue';
-import MovieDetail from '../views/MovieDetail.vue';
-import Seats from '../views/Seats.vue';
-import PruebaView from '../views/prueba.vue'; // Importa la nueva vista
+import Home from '../views/HomeView.vue';
+import About from '../views/AboutView.vue';
+import LoginRegister from '../views/LoginRegister.vue'; // Cambiamos la importación a LoginRegister.vue
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
-    meta: {
-      isAdminView: false,
-    },
+    component: Home,
   },
   {
     path: '/about',
     name: 'about',
-    component: AboutView,
-    meta: {
-      isAdminView: false,
-    },
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginRegister,
-    meta: {
-      isAdminView: false,
-    },
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: AdminRegistered,
-    meta: {
-      isAdminView: true,
-    },
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: UserRegistered,
-    meta: {
-      isAdminView: false,
-    },
-  },
-  {
-    path: '/movie-create',
-    name: 'movieCreate',
-    component: MovieCreate,
-    meta: {
-      isAdminView: true,
-    },
-  },
-  {
-    path: '/assign-functions',
-    name: 'assignFunctions',
-    component: AssignFunctions,
-    meta: {
-      isAdminView: true,
-    },
-  },
-  {
-    path: '/movie/:id',
-    name: 'MovieDetails',
-    component: MovieDetail,
-    props: true
-  },
-  {
-    path: '/seats',
-    name: 'Seats',
-    component: Seats, 
-    meta: {
-      isAdminView: true, // Cambiar esto a true para que coincida con isAdminView
-    },
+    component: About,
   },
   {
     path: '/event/:id',
     name: 'eventSingle',
-    component: CinemaSingle,
-    meta: {
-      isAdminView: false,
-    },
+    component: () => import('../views/CinemaSingle.vue'),
   },
   {
-    path: '/prueba',
-    name: 'prueba',
-    component: PruebaView,
-    meta: {
-      isAdminView: false,
-    },
+    path: '/login', // Ruta para la página de login-register
+    name: 'login',
+    component: LoginRegister,
   },
 ];
 

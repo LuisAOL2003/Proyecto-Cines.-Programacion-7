@@ -53,28 +53,6 @@ export const getScheduleById = async (req, res) => {
   }
 };
 
-// Obtener los horarios de una película por ID de película
-export const getSchedulesByMovieId = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const query = `
-      SELECT h.ID_horario, h.Fecha, h.HoraInicio, h.HoraFin, s.Nombre AS nombre_sala
-      FROM Horarios h
-      JOIN Salas s ON h.ID_Sala = s.ID_sala
-      WHERE h.ID_Pelicula = $1
-    `;
-    const result = await pool.query(query, [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'No se encontraron horarios para esta película' });
-    }
-    res.json(result.rows);
-  } catch (error) {
-    console.error('Error al obtener los horarios:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
-};
-
 // Actualizar un horario
 export const updateSchedule = async (req, res) => {
   const { id } = req.params;

@@ -6,15 +6,15 @@
           <div class="top">
             <img
               class="logo"
-              src="../assets/logocompleto.png"
+              src="https://res.cloudinary.com/dc3c8nrut/image/upload/v1685298768/logo-placeholder_l3yodl.png"
             />
             <div class="title">Sign in</div>
             <div class="subtitle">
               Don't have an account?
-              <span class="subtitle-action" @click="toggleSignIn">Create Account</span>
+              <span class="subtitle-action" @click="signIn = !signIn">Crear cuenta</span>
             </div>
           </div>
-          <form @submit.prevent="login">
+          <form>
             <div class="form">
               <input
                 required
@@ -22,16 +22,16 @@
                 aria-invalid="false"
                 aria-label="E-mail"
                 type="email"
+                pattern="^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$"
                 class="w100"
                 :class="{ invalid: email.error }"
                 ref="email"
                 placeholder="Email"
                 autofocus
                 @blur="validateEmail"
-                @input="validateLoginFields"
+                @keydown="validateEmail"
                 v-model="email.value"
               />
-              <div v-if="email.error" class="errorMessage">Please enter a valid email address.</div>
               <input
                 required
                 aria-required="true"
@@ -41,16 +41,14 @@
                 placeholder="Password"
                 v-model="password.value"
                 @blur="validatePassword"
-                @input="validateLoginFields"
+                @keydown="validatePassword"
               />
-              <div v-if="password.error" class="errorMessage">Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.</div>
             </div>
             <input
               type="submit"
-              value="Sign in"
+              value="Submit"
               class="action"
               :class="{ 'action-disabled': !loginValid }"
-              :disabled="!loginValid"
             />
           </form>
         </div>
@@ -58,59 +56,44 @@
           <div class="top">
             <img
               class="logo"
-              src="../assets/logocompleto.png"
+              src="https://res.cloudinary.com/dc3c8nrut/image/upload/v1685298768/logo-placeholder_l3yodl.png"
             />
             <div class="title">Create an Account</div>
             <div class="subtitle">
               Already have an account?
-              <span class="subtitle-action" @click="toggleSignIn">Sign In</span>
+              <span class="subtitle-action" @click="signIn = !signIn">Sign In</span>
             </div>
           </div>
-          <form @submit.prevent="register">
-            <div class="form">
-              <input
-                type="text"
-                placeholder="First name"
-                autofocus
-                v-model="firstName"
-                class="w100"
-              />
-              <input
-                type="text"
-                placeholder="Last name"
-                v-model="lastName"
-                class="w100"
-              />
-              <input
-                type="email"
-                class="w100"
-                placeholder="Email"
-                v-model="email.value"
-                :class="{ invalid: email.error }"
-                @blur="validateEmail"
-                @input="validateRegisterFields"
-              />
-              <div v-if="email.error" class="errorMessage">Please enter a valid email address.</div>
-              <input
-                type="password"
-                class="w100"
-                placeholder="Password"
-                v-model="password.value"
-                :class="{ invalid: password.error }"
-                @blur="validatePassword"
-                @input="validateRegisterFields"
-              />
-              <div v-if="password.error" class="errorMessage">Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.</div>
-            </div>
-            <button
-              type="submit"
-              class="action"
-              :class="{ 'action-disabled': !registerValid }"
-              :disabled="!registerValid"
-            >
-              Create Account
-            </button>
-          </form>
+          <div class="form">
+            <input
+              type="text"
+              placeholder="First name"
+              autofocus
+              v-model="firstName"
+              class="w100"
+            />
+            <input
+              type="text"
+              placeholder="Last name"
+              v-model="lastName"
+              class="w100"
+            />
+            <input
+              type="text"
+              class="w100"
+              placeholder="Email"
+              v-model="email.value"
+            />
+            <input
+              type="password"
+              class="w100"
+              placeholder="Password"
+              v-model="password.value"
+            />
+          </div>
+          <button class="action" :class="{ 'action-disabled': !registerValid }">
+            Create Account
+          </button>
         </div>
       </div>
     </div>
@@ -118,15 +101,11 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode';
-
 export default {
   data() {
     return {
-      emailRegex: /^[\w.-]+@[\w.-]+\.\w+$/,
-      passwordRegex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+      emailRegex: /^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$/,
+      passwordRegex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
 
       firstName: "",
       lastName: "",
@@ -147,106 +126,13 @@ export default {
 
   methods: {
     validateEmail() {
-      this.email.error = !this.emailRegex.test(this.email.value);
+      if (this.email.value == "") this.email.error = true;
+      else this.email.error = false;
     },
 
     validatePassword() {
-      this.password.error = !this.passwordRegex.test(this.password.value);
-    },
-
-    validateLoginFields() {
-      this.email.error = !this.emailRegex.test(this.email.value);
-      this.password.error = !this.passwordRegex.test(this.password.value);
-    },
-
-    validateRegisterFields() {
-      this.email.error = !this.emailRegex.test(this.email.value);
-      this.password.error = !this.passwordRegex.test(this.password.value);
-    },
-
-    toggleSignIn() {
-      this.signIn = !this.signIn;
-      this.resetForm();
-    },
-
-    resetForm() {
-      this.firstName = "";
-      this.lastName = "";
-      this.email.value = "";
-      this.password.value = "";
-      this.email.error = false;
-      this.password.error = false;
-    },
-
-    async login() {
-      if (!this.loginValid) {
-        console.error('Please fill in all required fields correctly.');
-        return;
-      }
-
-      try {
-        const response = await axios.post('http://localhost:3000/api/auth/login', {
-          email: this.email.value,
-          password: this.password.value,
-        });
-
-        const { accessToken, refreshToken } = response.data;
-
-        // Guarda los tokens en cookies
-        Cookies.set('accessToken', accessToken, { expires: 1 / 46 }); // Expira en 30 minutos
-        Cookies.set('refreshToken', refreshToken, { expires: 30 }); // Expira en 30 días
-
-        console.log('Login successful:', response.data);
-
-        // Decodifica el token para obtener el rol del usuario
-        const decodedToken = jwtDecode(accessToken);
-        const userRole = decodedToken.role;
-
-        // Redirige según el rol del usuario
-        if (userRole === 'Administrador') {
-          this.$router.push('/admin');
-        } else if (userRole === 'Cliente') {
-          this.$router.push('/user');
-        } else {
-          this.$router.push('/');
-        }
-      } catch (error) {
-        console.error('Login failed:', error.response ? error.response.data : error.message);
-      }
-    },
-
-    async register() {
-      if (!this.registerValid) {
-        console.error('Please fill in all required fields correctly.');
-        return;
-      }
-
-      try {
-        const response = await axios.post('http://localhost:3000/api/auth/register', {
-          name: this.firstName,
-          last_name: this.lastName,
-          email: this.email.value,
-          password: this.password.value,
-        });
-
-        console.log('Registration successful:', response.data);
-        this.toggleSignIn(); // Redirigir al formulario de inicio de sesión
-      } catch (error) {
-        console.error('Registration failed:', error.response ? error.response.data : error.message);
-      }
-    },
-
-    async fetchProtectedData() {
-      try {
-        const response = await axios.get('http://localhost:3000/api/protected-route', {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('accessToken')}`
-          }
-        });
-        console.log('Protected data:', response.data);
-      } catch (error) {
-        console.error('Failed to fetch protected data:', error.response ? error.response.data : error.message);
-      }
+      if (this.password.value == "") this.password.error = true;
+      else this.password.error = false;
     }
   },
 
@@ -259,31 +145,29 @@ export default {
       return this.lastName.length > 0;
     },
 
+    emailValid() {
+      return this.emailRegex.test(this.email.value);
+    },
+
+    passwordValid() {
+      return this.password.value.length > 0;
+    },
+
     loginValid() {
-      return this.email.value && this.password.value && !this.email.error && !this.password.error;
+      return this.emailValid && this.passwordValid;
     },
 
     registerValid() {
       return (
-        this.firstName &&
-        this.lastName &&
-        this.email.value &&
-        this.password.value &&
-        !this.email.error &&
-        !this.password.error &&
+        this.emailValid &&
+        this.passwordValid &&
         this.validFirstName &&
         this.validLastName
       );
     }
-  },
-
-  mounted() {
-    this.resetForm();
   }
 };
 </script>
-
-
 
 <style scoped lang="scss">
 @mixin box {
@@ -413,14 +297,3 @@ input[type="text"], input[type="email"], input[type="password"] {
   }
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
