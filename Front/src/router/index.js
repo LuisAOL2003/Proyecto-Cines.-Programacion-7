@@ -6,7 +6,6 @@ import LoginRegister from '../views/LoginRegister.vue';
 import AdminRegistered from '../views/AdminRegistered.vue';
 import UserRegistered from '../views/UserRegistered.vue'; 
 import MovieCreate from '../views/MovieCreate.vue';
-import CinemaSingle from '../views/CinemaSingle.vue';
 import AssignFunctions from '../views/AssignFunctions.vue'; 
 import MovieDetail from '../views/MovieDetail.vue';
 import Seats from '../views/Seats.vue';
@@ -93,14 +92,6 @@ const routes = [
       isAdminView: false, 
     }, 
   }, 
-  {
-    path: '/event/:id',
-    name: 'eventSingle',
-    component: CinemaSingle,
-    meta: {
-      isAdminView: false,
-    },
-  },
 ];
 
 const router = createRouter({

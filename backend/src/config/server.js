@@ -16,7 +16,7 @@ const app = express();
 // Middleware
 // Configura CORS para permitir solicitudes desde el frontend
 app.use(cors({
-  origin: 'http://localhost:8080', // Cambia esto a la URL de tu frontend en producción
+  origin: 'http://localhost:8080', 
   credentials: true
 }));
 

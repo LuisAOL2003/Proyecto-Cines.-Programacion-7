@@ -134,7 +134,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 20px; /* Ajusta el espacio entre los elementos */
+  margin-right: 20px; 
 }
 .cartCinema-container {
   display: flex;

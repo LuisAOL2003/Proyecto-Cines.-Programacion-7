@@ -72,14 +72,14 @@
   </script>
   
   <style lang="scss" scoped>
-  /* Estilos específicos para NavCliente.vue */
+  
   nav {
     margin-top: 25px;
     margin-bottom: 30px;
-    background-color: #2c3e50; /* Fondo oscuro para mejorar contraste */
+    background-color: #2c3e50; 
     a {
       font-weight: bold;
-      color: #ffffff; /* Texto blanco */
+      color: #ffffff; 
       &.router-link-exact-active {
         color: #d88d00;
       }

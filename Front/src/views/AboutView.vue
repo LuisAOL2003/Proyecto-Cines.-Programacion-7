@@ -60,32 +60,32 @@ export default {
 }
 
 .reviews h2 {
-  margin-bottom: 20px; /* Espacio adicional debajo del título de reseñas */
+  margin-bottom: 20px;
 }
 
 .review {
   margin-bottom: 20px;
-  background: #ffffff; /* Fondo blanco para las reseñas */
+  background: #ffffff; 
   padding: 15px;
   border-radius: 10px;
-  color: #000000; /* Color de texto negro */
+  color: #000000; 
 }
 
 .review blockquote {
-  color: #000000; /* Color de texto negro en blockquotes */
+  color: #000000; 
 }
 
 .review p {
-  color: #000000; /* Color de texto negro para el autor */
+  color: #000000; 
 }
 
 h1 {
-  font-size: 2.5rem; /* Tamaño de fuente más grande para h1 */
-  color: #d88d00; /* Color del título principal */
+  font-size: 2.5rem; 
+  color: #d88d00; 
 }
 
 h2 {
-  color: #d88d00; /* Color de texto para los títulos secundarios */
+  color: #d88d00; 
   font-size: 1.5rem
 }
 </style>

@@ -5,16 +5,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.cookies['accessToken']; // Obtener el token de las cookies
 
   if (!token) {
     return res.status(403).json({ error: 'No token provided.' });
   }
 
-  // Split the token to remove the "Bearer " prefix
-  const bearerToken = token.split(' ')[1];
-
-  jwt.verify(bearerToken, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to authenticate token.' });
     }
@@ -26,4 +23,3 @@ const verifyToken = (req, res, next) => {
 };
 
 export default verifyToken;
-

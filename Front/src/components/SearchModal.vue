@@ -48,33 +48,34 @@ export default {
   },
   methods: {
     async searchMovie() {
-      if (this.searchQuery.length > 2) {
-        try {
-          const response = await fetch(`http://localhost:3000/api/movies/search/${this.searchQuery}`, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-          });
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          this.movie = data.length ? data[0] : null;
-        } catch (error) {
-          console.error('Error fetching movie data:', error);
-        }
-      } else {
-        this.movie = null;
+  if (this.searchQuery.length > 2) {
+    try {
+      const response = await fetch(`http://localhost:3000/api/movies/search/${this.searchQuery}`, {
+        credentials: 'include', 
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error en la búsqueda de películas:', errorData.message); 
+        throw new Error('Network response was not ok');
       }
-    },
+      const data = await response.json();
+      this.movie = data.length ? data[0] : null;
+    } catch (error) {
+      console.error('Error fetching movie data:', error);
+    }
+  } else {
+    this.movie = null;
+  }
+},
+
     async submitForm() {
       try {
         const response = await fetch('http://localhost:3000/api/movies', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
           },
+          credentials: 'include', 
           body: JSON.stringify(this.movie),
         });
         if (!response.ok) {
@@ -100,19 +101,19 @@ export default {
   background-color: #2a2a2a;
   padding: 20px;
   border-radius: 8px;
-  max-width: 700px; /* Ampliar el modal */
+  max-width: 700px; 
   margin: auto;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
-  margin-bottom: 20px; /* Margen inferior para evitar cercanía al footer */
-  margin-top: 50px; /* Ajustar este valor para mover el contenido hacia arriba */
+  margin-bottom: 20px; 
+  margin-top: 50px; 
 }
 
 .search-modal h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: rgb(248, 246, 246); /* Color blaco para el h2 */
-  font-size: 24px; /* Tamaño de fuente más grande para el h2 */
+  color: rgb(248, 246, 246); 
+  font-size: 24px; 
 }
 
 .search-modal input,
@@ -125,15 +126,15 @@ export default {
 }
 
 .search-modal textarea {
-  height: 150px; /* Altura más grande para la descripción */
-  resize: none; /* Eliminar la capacidad de redimensionar */
+  height: 150px; 
+  resize: none;
 }
 
 .search-modal label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: rgb(255, 247, 247); /* Color negro para los labels */
+  color: rgb(255, 247, 247); 
 }
 
 .search-modal h3 {
@@ -147,7 +148,7 @@ export default {
   margin-bottom: 10px;
   display: block;
   margin-left: auto;
-  margin-right: auto; /* Centrar la imagen */
+  margin-right: auto; 
 }
 
 .button-container {

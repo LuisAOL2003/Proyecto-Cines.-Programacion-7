@@ -93,7 +93,7 @@ export default {
 .events {
   margin-top: 50px;
   text-align: center;
-  color: #fff; /* Color de texto claro para fondos oscuros */
+  color: #fff; 
 }
 
 .movie-card {
@@ -113,21 +113,21 @@ export default {
 
 .subtitle,
 .title {
-  color: #fffefe; /* Cambio de color del texto a blanco */
+  color: #fffefe; 
   margin-bottom: 20px;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: #fff; /* Color de las flechas de navegación */
+  color: #fff; 
 }
 
 .swiper-button-prev::before,
 .swiper-button-next::before {
-  font-size: 20px; /* Tamaño de la flecha */
+  font-size: 20px; 
 }
 
 .swiper-button-next {
-  right: 10px; /* Ajuste de posición de la flecha siguiente */
+  right: 10px; 
 }
 </style>

@@ -61,14 +61,14 @@ export default {
 
 <style lang="scss" scoped>
 nav {
-  margin-top: 0; /* Elimina el margen superior para acercar el contenido a la parte superior */
-  margin-bottom: 10px; /* Reduce el margen inferior para que el contenido no esté tan lejos del siguiente elemento */
-  background-color: #2c3e50; /* Fondo oscuro para mejorar contraste */
-  height: 30px; /* Ajusta la altura de la barra de navegación */
-  line-height: 60px; /* Alinea verticalmente el contenido dentro de la barra de navegación */
+  margin-top: 0; 
+  margin-bottom: 10px;
+  background-color: #2c3e50; 
+  height: 30px;
+  line-height: 60px;
   a {
     font-weight: bold;
-    color: #ffffff; /* Texto blanco */
+    color: #ffffff; 
     &.router-link-exact-active {
       color: #d88d00;
     }

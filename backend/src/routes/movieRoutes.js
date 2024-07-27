@@ -6,13 +6,13 @@ import verifyAdmin from '../middlewares/verifyAdmin.js';
 const router = express.Router();
 
 // Rutas para las películas
-router.post('/movies', saveMovie);
-router.put('/movies/:id', verifyToken, verifyAdmin, updateMovie);
-router.delete('/movies/:id', verifyToken, verifyAdmin, deleteMovie);
-router.get('/movies/:id', getMovie);
-router.get('/movies', getAllMovies);
-router.get('/movies/search/:query', searchMovies); // Ruta de búsqueda
-router.get('/movies/:id/schedules', verifyToken, getMovieSchedulesAndHallsController);
+router.post('/movies', saveMovie); //guardar pelicula
+router.put('/movies/:id', verifyToken, verifyAdmin, updateMovie); //actualizar pelicula
+router.delete('/movies/:id', verifyToken, verifyAdmin, deleteMovie); //eliminar pelicula
+router.get('/movies/:id', getMovie); //obtener pelicula por id
+router.get('/movies', getAllMovies); //obtener todas las peliculas
+router.get('/movies/search/:query', searchMovies); // Ruta de búsqueda de peliculas en la api
+router.get('/movies/:id/schedules', verifyToken, getMovieSchedulesAndHallsController); //obtener peliculas de una sala
 
 export default router;
 

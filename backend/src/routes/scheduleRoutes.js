@@ -7,11 +7,11 @@ const router = express.Router();
 
 // Rutas para los horarios
 router.post('/schedules',  createSchedule); // Solo administradores pueden crear horarios
-router.get('/schedules', verifyToken, getAllSchedules); // Obtener todos los horarios (accesible para todos)
+router.get('/schedules', verifyToken, getAllSchedules); // Obtener todos los horarios 
 router.get('/schedules/:id', verifyToken, getScheduleById); // obtener un horario por ID
 router.put('/schedules/:id', verifyToken, verifyAdmin, updateSchedule); // Solo administradores pueden actualizar horarios
 router.delete('/schedules/:id', verifyToken, verifyAdmin, deleteSchedule); // Solo administradores pueden eliminar horarios
-router.get('/schedules/movie/:id', getSchedulesByMovieId);
+router.get('/schedules/movie/:id', getSchedulesByMovieId); //obtener todos los horarios de una pelicula
 
 
 export default router;

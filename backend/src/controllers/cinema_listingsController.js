@@ -86,10 +86,10 @@ export const getCarteleraByType = async (req, res) => {
       WHERE c.Tipo = $1
     `;
     const result = await pool.query(query, [type]);
-    res.json(result.rows); // Envía los datos en formato JSON
+    res.json(result.rows); 
   } catch (error) {
-    console.error('Error al obtener la cartelera:', error); // Log para depuración
-    res.status(500).json({ error: 'Error interno del servidor' }); // Mensaje de error en formato JSON
+    console.error('Error al obtener la cartelera:', error);
+    res.status(500).json({ error: 'Error interno del servidor' }); 
   }
 };
 

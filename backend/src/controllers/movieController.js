@@ -112,9 +112,11 @@ export const searchMovies = async (req, res) => {
       res.status(404).json({ message: 'No se encontraron películas.' });
     }
   } catch (error) {
+    console.error('Error al buscar películas:', error); // Agrega más información en el log
     res.status(500).json({ message: 'Error al buscar películas.' });
   }
 };
+
 
 
 

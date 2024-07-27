@@ -7,7 +7,7 @@ const router = express.Router();
 // Rutas de registro de usuarios y autenticación 
 router.post('/auth/register', registerUser);
 router.post('/auth/login', loginUser);
-router.post('/refresh-token', refreshToken);
+router.post('/refresh-token', verifyToken, refreshToken);
 router.post('/auth/logout', logoutUser);
 
 

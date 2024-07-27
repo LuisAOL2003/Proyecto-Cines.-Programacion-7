@@ -17,9 +17,9 @@
   
   <style scoped lang="scss">
   .footer {
-    background-color: #2c3e50; /* Fondo oscuro para mejorar contraste */
+    background-color: #2c3e50; 
     padding: 1rem 0;
-    color: #ffffff; /* Texto blanco */
+    color: #ffffff;
     .content {
       p {
         margin: 0;

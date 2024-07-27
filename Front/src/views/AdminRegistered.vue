@@ -59,7 +59,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 400px; // Ajusta la altura según sea necesario
+      height: 400px; 
       display: flex;
       align-items: center;
       justify-content: center;
@@ -97,21 +97,21 @@
         .button-block {
           display: flex;
           justify-content: center;
-          gap: 20px; /* Agrega espacio entre los botones */
+          gap: 20px; 
           margin-top: 20px;
   
           .button {
-            font-size: 1.25rem; /* Aumenta el tamaño de la fuente */
-            padding: 15px 30px; /* Aumenta el padding */
+            font-size: 1.25rem; 
+            padding: 15px 30px; 
   
             @media (min-width: 768px) {
-              font-size: 1.5rem; /* Aumenta el tamaño de la fuente en pantallas más grandes */
-              padding: 15px 30px; /* Aumenta el padding en pantallas más grandes */
+              font-size: 1.5rem; 
+              padding: 15px 30px; 
             }
   
             @media (min-width: 1024px) {
-              font-size: 1.75rem; /* Aumenta el tamaño de la fuente en pantallas aún más grandes */
-              padding: 15px 30px; /* Aumenta el padding en pantallas aún más grandes */
+              font-size: 1.75rem; 
+              padding: 15px 30px; 
             }
           }
         }

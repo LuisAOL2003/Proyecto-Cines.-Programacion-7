@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Rutas para las salas
 router.post('/halls', verifyToken, verifyAdmin, createHall); // Solo administradores pueden crear salas
-router.get('/halls',  getAllHalls); // Obtener todas las salas (accesible para todos)
+router.get('/halls',  getAllHalls); // Obtener todas las salas 
 router.get('/halls/:id', verifyToken, getHallById); // Obtener una sala por ID 
 router.put('/halls/:id', verifyToken, verifyAdmin, updateHall); // Solo administradores pueden actualizar salas
 router.delete('/halls/:id', verifyToken, verifyAdmin, deleteHall); // Solo administradores pueden eliminar salas

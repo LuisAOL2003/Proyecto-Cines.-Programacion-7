@@ -15,7 +15,6 @@
           </div>
         </div>
       </div>
-      <!-- Nuevo contenido -->
       <div class="schedule-section">
         <h2 class="schedule-title">Seleccione su horario y sala</h2>
         <div class="schedule-subtitle">Horarios y salas disponibles</div>
@@ -42,7 +41,7 @@ export default {
   data() {
     return {
       movie: {},
-      schedules: [], // Añadimos este estado para los horarios
+      schedules: [], 
     };
   },
   async created() {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Contenido principal -->
     <main class="main-content">
       <h1 class="title">Asignar funciones</h1>
 
@@ -180,14 +179,14 @@ export default {
 </script>
 
 <style scoped>
-/* Contenido principal */
+
 .main-content {
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* Título principal */
+
 .title {
   text-align: center;
   font-size: 32px;
@@ -195,7 +194,7 @@ export default {
   color: rgb(255, 255, 255);
 }
 
-/* Sección de formularios */
+
 .form-section {
   margin-bottom: 40px;
 }

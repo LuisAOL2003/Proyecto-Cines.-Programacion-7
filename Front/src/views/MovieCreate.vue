@@ -56,12 +56,12 @@ export default {
 
 <style scoped>
 .movie-create-container {
-  min-height: 80vh; /* Asegurar que el contenedor tenga una altura mínima */
+  min-height: 80vh; 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20px; /* Agregar margen inferior */
+  padding-bottom: 20px; 
 }
 
 .movie-details {

@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Rutas para los asientos
 router.post('/seats', verifyToken, verifyAdmin, createSeat); // Solo administradores pueden crear asientos
-router.get('/seats/:id_sala', verifyToken, getSeatsByHall); // Obtener todos los asientos de una sala (protegido)
+router.get('/seats/:id_sala', verifyToken, getSeatsByHall); // Obtener todos los asientos de una sala 
 router.put('/seats/:id', verifyToken, verifyAdmin, updateSeat); // Solo administradores pueden actualizar asientos
 router.delete('/seats/:id', verifyToken, verifyAdmin, deleteSeat); // Solo administradores pueden eliminar asientos
 

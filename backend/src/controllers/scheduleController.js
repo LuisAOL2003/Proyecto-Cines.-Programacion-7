@@ -5,7 +5,7 @@ export const createSchedule = async (req, res) => {
   const { id_pelicula, id_sala, fecha, horaInicio, horaFin } = req.body;
 
   try {
-    // Verificar si hay un solapamiento con otros horarios en la misma sala
+    // Verificar si hay una coincidencia con otros horarios en la misma sala
     const conflict = await pool.query(
       `SELECT * FROM Horarios 
        WHERE ID_sala = $1 AND Fecha = $2 AND 
@@ -14,7 +14,7 @@ export const createSchedule = async (req, res) => {
     );
 
     if (conflict.rows.length > 0) {
-      return res.status(400).json({ error: 'El horario se solapa con otro existente en la misma sala.' });
+      return res.status(400).json({ error: 'El horario coincide con otro existente en la misma sala.' });
     }
 
     const result = await pool.query(
@@ -81,7 +81,7 @@ export const updateSchedule = async (req, res) => {
   const { id_pelicula, id_sala, fecha, horaInicio, horaFin } = req.body;
 
   try {
-    // Verificar si hay un solapamiento con otros horarios en la misma sala
+    // Verificar si hay una coincidencia con otros horarios en la misma sala
     const conflict = await pool.query(
       `SELECT * FROM Horarios 
        WHERE ID_sala = $1 AND Fecha = $2 AND 
@@ -90,7 +90,7 @@ export const updateSchedule = async (req, res) => {
     );
 
     if (conflict.rows.length > 0) {
-      return res.status(400).json({ error: 'El horario se solapa con otro existente en la misma sala.' });
+      return res.status(400).json({ error: 'El horario coincide con otro existente en la misma sala.' });
     }
 
     const result = await pool.query(
