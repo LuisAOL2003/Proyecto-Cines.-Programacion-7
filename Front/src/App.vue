@@ -1,61 +1,61 @@
 <template>
   <div id="app">
-    <Nav v-if="!isAdminView" />
-    <NavAdmin v-if="isAdminView" @logout="handleLogout" />
+    <Nav v-if="!isAdminView && !isSeatsView" />
+    <NavAdmin v-if="isAdminView || isSeatsView" @logout="handleLogout" />
     <router-view @routeChanged="handleRouteChange" />
-    <Footer v-if="!isAdminView" />
+    <Footer />
   </div>
 </template>
 
-<script> 
-import Nav from './components/partials/Nav.vue'; 
-import NavAdmin from './components/partials/NavAdmin.vue'; 
-import Footer from './components/partials/Footer.vue'; 
-import { ref, onMounted, watch } from 'vue'; 
-import { useRoute, useRouter } from 'vue-router'; 
- 
-export default { 
-  name: 'App', 
-  components: { 
-    Nav, 
-    NavAdmin, 
-    Footer, 
-  }, 
-  setup() { 
-    const isAdminView = ref(false); 
-    const isMovieCreateView = ref(false); 
-    const route = useRoute(); 
-    const router = useRouter(); 
- 
-    function handleRouteChange(route) { 
-      isAdminView.value = route.meta.isAdminView || false; 
-      isMovieCreateView.value = route.name === 'movieCreate'; 
-    } 
- 
-    function handleLogout() { 
-      isAdminView.value = false; 
-      isMovieCreateView.value = false; 
-      localStorage.removeItem('token'); // Asegúrate de cerrar sesión correctamente 
-      router.push('/'); // Redirigir a la página de inicio después de cerrar sesión 
-    } 
- 
-    watch(route, () => { 
-      handleRouteChange(route); 
-    }); 
- 
-    onMounted(() => { 
-      handleRouteChange(route); 
-    }); 
- 
-    return { 
-      isAdminView, 
-      isMovieCreateView, 
-      handleRouteChange, 
-      handleLogout, 
-    }; 
-  }, 
-}; 
-</script> 
+<script>
+import Nav from './components/partials/Nav.vue';
+import NavAdmin from './components/partials/NavAdmin.vue';
+import Footer from './components/partials/Footer.vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+export default {
+  name: 'App',
+  components: {
+    Nav,
+    NavAdmin,
+    Footer,
+  },
+  setup() {
+    const isAdminView = ref(false);
+    const isSeatsView = ref(false);
+    const route = useRoute();
+    const router = useRouter();
+
+    function handleRouteChange(route) {
+      isAdminView.value = route.meta.isAdminView || false;
+      isSeatsView.value = route.name === 'Seats';
+    }
+
+    function handleLogout() {
+      isAdminView.value = false;
+      isSeatsView.value = false;
+      localStorage.removeItem('token'); // Asegúrate de cerrar sesión correctamente
+      router.push('/'); // Redirigir a la página de inicio después de cerrar sesión
+    }
+
+    watch(route, () => {
+      handleRouteChange(route);
+    });
+
+    onMounted(() => {
+      handleRouteChange(route);
+    });
+
+    return {
+      isAdminView,
+      isSeatsView,
+      handleRouteChange,
+      handleLogout,
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -73,4 +73,3 @@ router-view {
   flex: 1; /* Permite que el router-view ocupe el espacio restante */
 }
 </style>
-

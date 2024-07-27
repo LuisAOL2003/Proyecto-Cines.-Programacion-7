@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <NavAdmin />
     <h2>ACA ESTAN LOS ASIENTOS PARA LA PELICULA : {{ movieTitle }}</h2>
     <Cinema
       :leftInitial="0"
@@ -15,20 +14,15 @@
       :ocupados="ocupados"
       @update:selectedRef="updateSelectedRef"
     />
-    <Footer />
   </div>
 </template>
 
 <script>
-import NavAdmin from '../components/partials/NavAdmin.vue';
-import Footer from '../components/partials/Footer.vue';
 import Cinema from '../components/Cinema.vue';
 
 export default {
   name: 'Seats',
   components: {
-    NavAdmin,
-    Footer,
     Cinema,
   },
   props: {

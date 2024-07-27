@@ -25,7 +25,7 @@
       </div>
 
       <!-- Fila de Asientos -->
-      <div v-for="i in totalRows" :key="i" class="seat-row">
+      <div v-for="i in computedTotalRows " :key="i" class="seat-row">
         <div class="seat-label">{{ numToChar(i) }}</div> <!-- Etiqueta de la Fila -->
 
         <!-- Asientos -->
@@ -110,11 +110,12 @@ export default {
     },
   },
   computed: {
-    totalRows() {
+    computedTotalRows() {
       return Math.min(this.maxRow, this.totalRows);
     }
   }
 };
+
 </script>
 
 <style scoped>

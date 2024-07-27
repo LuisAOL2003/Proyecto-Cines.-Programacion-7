@@ -16,8 +16,9 @@
       <!-- Menú de navegación -->
       <div id="navbar" class="navbar-menu">
         <div class="navbar-start">
-          <router-link to="/" class="navbar-item">Home</router-link>
-          <router-link to="/about" class="navbar-item">About</router-link>
+          <router-link to="/admin" class="navbar-item">Home</router-link>
+          <router-link to="/movie-create" class="navbar-item">Peliculas</router-link>
+          <router-link to="/assign-functions" class="navbar-item">Funciones</router-link>
         </div>
         <!-- Botones en la esquina derecha -->
         <div class="navbar-end">

@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .search-modal {
-  background-color: white;
+  background-color: #2a2a2a;
   padding: 20px;
   border-radius: 8px;
   max-width: 700px; /* Ampliar el modal */
@@ -105,12 +105,13 @@ export default {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   margin-bottom: 20px; /* Margen inferior para evitar cercanía al footer */
+  margin-top: 50px; /* Ajustar este valor para mover el contenido hacia arriba */
 }
 
 .search-modal h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: black; /* Color negro para el h2 */
+  color: rgb(248, 246, 246); /* Color blaco para el h2 */
   font-size: 24px; /* Tamaño de fuente más grande para el h2 */
 }
 
@@ -132,12 +133,12 @@ export default {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: black; /* Color negro para los labels */
+  color: rgb(255, 247, 247); /* Color negro para los labels */
 }
 
 .search-modal h3 {
   margin: 0 0 10px 0;
-  color: #333;
+  color: #fffdfd;
 }
 
 .search-modal img.movie-image {
