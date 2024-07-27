@@ -38,7 +38,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 400px; // Ajusta la altura según sea necesario
+      height: 400px; 
       display: flex;
       align-items: center;
       justify-content: center;
