@@ -7,7 +7,7 @@
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
         <swiper-slide v-for="movie in movies" :key="movie.id_pelicula">
-          <CinemaCard :event="movie" @click="goToMovieDetails(movie.id_pelicula, 'peliculas')" />
+          <CinemaCard :event="movie" />
         </swiper-slide>
       </swiper>
     </div>
@@ -19,7 +19,7 @@
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
         <swiper-slide v-for="event in events" :key="event.id_cartelera">
-          <CinemaCard :event="event" @click="goToMovieDetails(event.id_pelicula, 'Cartelera')" />
+          <CinemaCard :event="event" />
         </swiper-slide>
       </swiper>
     </div>
@@ -31,7 +31,7 @@
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
         <swiper-slide v-for="premiere in premieres" :key="premiere.id_cartelera">
-          <CinemaCard :event="premiere" @click="goToMovieDetails(premiere.id_pelicula, 'Próximo estreno')" />
+          <CinemaCard :event="premiere" />
         </swiper-slide>
       </swiper>
     </div>
@@ -83,7 +83,9 @@ export default {
   },
   methods: {
     goToMovieDetails(id, type) {
-      this.$router.push({ name: 'MovieDetails', params: { id }, query: { type } });
+      this.$router.push({ name: 'MovieDetails', params: { id }, query: { type } }).catch(error => {
+        console.error('Redirection to MovieDetails failed:', error);
+      });
     },
   },
 };
