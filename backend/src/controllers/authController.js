@@ -8,13 +8,13 @@ dotenv.config();
 // Función auxiliar para generar y guardar tokens
 const generateAndSaveTokens = async (user) => {
   const accessToken = jwt.sign(
-    { id: user.id_usuario, role: user.id_rol, name: user.nombre },
+    { id: user.id_usuario, role: user.rol_nombre, name: user.nombre },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
   );
 
   const refreshToken = jwt.sign(
-    { id: user.id_usuario, role: user.id_rol, name: user.nombre },
+    { id: user.id_usuario, role: user.rol_nombre, name: user.nombre },
     process.env.JWT_REFRESH_SECRET,
     { expiresIn: '30d' }
   );
@@ -32,11 +32,10 @@ export const registerUser = async (req, res) => {
   const { name, last_name, email, password } = req.body;
 
   try {
-    // Toma el ID del tipo de usuario Cliente de la tabla de roles y lo almacena en una variable y después se lo pasa al INSERT
     const roleResult = await pool.query('SELECT ID_rol FROM Roles WHERE Nombre = $1', ['Cliente']);
     const roleId = roleResult.rows[0].id_rol;
 
-    const hashedPassword = await bcrypt.hash(password, 10); // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
     await pool.query(
       'INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, ID_Rol) VALUES ($1, $2, $3, $4, $5)',
       [name, last_name, email, hashedPassword, roleId]
@@ -53,13 +52,19 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const result = await pool.query('SELECT * FROM Usuarios WHERE Email = $1', [email]);
+    const result = await pool.query(`
+      SELECT u.*, r.Nombre as rol_nombre
+      FROM Usuarios u
+      JOIN Roles r ON u.ID_Rol = r.ID_rol
+      WHERE u.Email = $1
+    `, [email]);
+
     const user = result.rows[0];
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.contraseña); // Compara la contraseña proporcionada con la contraseña encriptada almacenada
+    const isPasswordValid = await bcrypt.compare(password, user.contraseña);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
     }

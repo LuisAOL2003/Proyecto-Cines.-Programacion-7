@@ -8,11 +8,7 @@ const router = express.Router();
 router.post('/auth/register', registerUser);
 router.post('/auth/login', loginUser);
 router.post('/refresh-token', refreshToken);
-router.post('/logout', logoutUser);
+router.post('/auth/logout', logoutUser);
 
-// Ruta protegida de ejemplo
-router.get('/protected', verifyToken, (req, res) => {
-  res.status(200).json({ message: 'Acceso autorizado a ruta protegida', user: req.userId });
-});
 
 export default router;
