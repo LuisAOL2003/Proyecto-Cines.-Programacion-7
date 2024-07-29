@@ -61,3 +61,26 @@ export const deleteSeat = async (req, res) => {
   }
 };
 
+// Obtener todos los asientos de una sala con disponibilidad
+export const getSeatsByHallAndSchedule = async (req, res) => {
+  const { id_sala, id_horario } = req.params;
+
+  try {
+    // Obtener asientos de la sala
+    const seatsResult = await pool.query('SELECT * FROM Asientos WHERE ID_sala = $1', [id_sala]);
+
+    // Obtener asientos reservados para el horario específico
+    const reservedSeatsResult = await pool.query('SELECT ID_asiento FROM Reservas WHERE ID_horario = $1', [id_horario]);
+    const reservedSeats = reservedSeatsResult.rows.map(row => row.id_asiento);
+
+    // Marcar los asientos como ocupados si están reservados
+    const seats = seatsResult.rows.map(seat => ({
+      ...seat,
+      disponible: !reservedSeats.includes(seat.id_asiento)
+    }));
+
+    res.json(seats);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

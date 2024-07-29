@@ -21,9 +21,8 @@ export default {
     goToDetails() {
       const movieId = this.event.id_pelicula || this.event.id_cartelera;
 
-      console.log(movieId)
-
-      console.log(this.event)
+      console.log('ID de la película:', movieId); // Verifica el ID de la película
+      console.log('Evento:', this.event);
 
       if (!movieId) {
         console.error('ID no disponible para la navegación.');
@@ -97,6 +96,3 @@ h2 {
   margin: 0;
 }
 </style>
-
-
-

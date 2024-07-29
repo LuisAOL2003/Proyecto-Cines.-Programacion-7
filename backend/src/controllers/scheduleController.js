@@ -123,3 +123,46 @@ export const deleteSchedule = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getSeatsForSchedule = async (req, res) => {
+  const { id_horario } = req.params;
+
+  try {
+    // Obtener detalles del horario incluyendo el ID de la película y la sala
+    const horarioResult = await pool.query(
+      `SELECT h.ID_pelicula, p.titulo AS titulo_pelicula, h.ID_sala 
+       FROM Horarios h 
+       JOIN Películas p ON h.ID_pelicula = p.ID_pelicula 
+       WHERE h.ID_horario = $1`,
+      [id_horario]
+    );
+
+    if (horarioResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Horario no encontrado' });
+    }
+
+    const { ID_pelicula, ID_sala, titulo_pelicula } = horarioResult.rows[0];
+
+    // Obtener todos los asientos de la sala
+    const asientosResult = await pool.query(
+      'SELECT * FROM Asientos WHERE ID_sala = $1',
+      [ID_sala]
+    );
+
+    // Obtener asientos ocupados para la película y el horario específico
+    const reservasResult = await pool.query(
+      'SELECT ID_asiento FROM Reservas WHERE ID_pelicula = $1 AND ID_horario = $2',
+      [ID_pelicula, id_horario]
+    );
+
+    const ocupados = reservasResult.rows.map(row => row.ID_asiento);
+
+    res.json({ 
+      asientos: asientosResult.rows, 
+      ocupados, 
+      titulo_pelicula 
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

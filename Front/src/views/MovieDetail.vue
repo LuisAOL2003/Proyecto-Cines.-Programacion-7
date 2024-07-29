@@ -20,14 +20,14 @@
         <div class="schedule-subtitle">Horarios y salas disponibles</div>
         <!-- Horarios -->
         <div class="schedules">
-          <div v-for="schedule in schedules" :key="schedule.ID_horario" class="schedule-box">
+          <div v-for="schedule in schedules" :key="schedule.id_horario" class="schedule-box">
             <p class="schedule-date"><strong>Fecha:</strong> {{ new Date(schedule.fecha).toLocaleDateString() }}</p>
             <div class="schedule-times">
               <p><strong>Hora Inicio:</strong> {{ schedule.horainicio }}</p>
               <p><strong>Hora Fin:</strong> {{ schedule.horafin }}</p>
             </div>
             <p class="schedule-room"><strong>Sala:</strong> {{ schedule.nombre_sala }}</p>
-            <button @click="selectSchedule(schedule.ID_horario)">Seleccionar</button>
+            <button @click="selectSchedule(schedule.id_horario)">Seleccionar</button>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       movie: {},
-      schedules: [], 
+      schedules: [],
     };
   },
   async created() {
@@ -65,13 +65,22 @@ export default {
         throw new Error(`HTTP error! Status: ${schedulesResponse.status}`);
       }
       this.schedules = await schedulesResponse.json();
+
+      // Verifica los horarios cargados
+      console.log('Horarios cargados:', this.schedules);
     } catch (error) {
       console.error('Error al cargar los detalles:', error);
     }
   },
   methods: {
-    selectSchedule() {
-      this.$router.push(`/seats`);
+    selectSchedule(scheduleId) {
+      console.log('Seleccionando horario:', scheduleId); // Verifica el valor del horario
+
+      if (scheduleId) {
+        this.$router.push({ name: 'Seats', params: { id_horario: scheduleId } });
+      } else {
+        console.error('ID de horario no disponible.');
+      }
     }
   }
 };

@@ -1,5 +1,6 @@
 <template>
   <div class="cartCinema mb-10">
+    <!-- Showcase de Asientos -->
     <ul class="cartCinema-showcase">
       <li class="cartCinema-showcase-item">
         <div class="seat"></div>
@@ -14,7 +15,8 @@
         <small>Ocupada</small>
       </li>
     </ul>
-    
+
+    <!-- Contenedor de Asientos -->
     <div class="cartCinema-container" @click="onClick">
       <!-- Cabeceras de Asientos -->
       <div class="seat-headers">
@@ -24,8 +26,11 @@
         <div v-for="num in rightColumns" :key="'header-right-' + num" class="seat-header">{{ num + leftColumns + middleColumns }}</div>
       </div>
 
+      <!-- Simulación de Pantalla del Cine -->
+      <div class="cartCinema-container_screen">Pantalla</div>
+
       <!-- Fila de Asientos -->
-      <div v-for="i in computedTotalRows " :key="i" class="seat-row">
+      <div v-for="i in computedTotalRows" :key="i" class="seat-row">
         <div class="seat-label">{{ numToChar(i) }}</div> <!-- Etiqueta de la Fila -->
 
         <!-- Asientos -->
@@ -46,9 +51,15 @@
       </div>
     </div>
 
+    <!-- Mostrar Asientos Seleccionados -->
     <p class="flex justify-center px-5 uppercase font-bold w-full">
       Butacas seleccionadas: {{ selected.join(', ') }}
     </p>
+
+    <!-- Botón de Confirmar -->
+    <button class="confirm-button" @click="confirmSelection">
+      Confirmar
+    </button>
   </div>
 </template>
 
@@ -79,6 +90,11 @@ export default {
       selected: this.selectedRef || [],
     };
   },
+  computed: {
+    computedTotalRows() {
+      return Math.min(this.maxRow, this.totalRows);
+    }
+  },
   methods: {
     onClick(e) {
       if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
@@ -108,14 +124,13 @@ export default {
       const code = 'A'.charCodeAt(0);
       return String.fromCharCode(code + number - 1);
     },
-  },
-  computed: {
-    computedTotalRows() {
-      return Math.min(this.maxRow, this.totalRows);
+    confirmSelection() {
+      // Aquí puedes manejar la lógica de la confirmación de selección de asientos
+      console.log('Asientos seleccionados:', this.selected);
+      // Puedes enviar los datos seleccionados al servidor o realizar otra acción
     }
   }
 };
-
 </script>
 
 <style scoped>
@@ -129,7 +144,6 @@ export default {
   justify-content: center;
   margin-bottom: 10px;
 }
-
 .cartCinema-showcase-item {
   display: flex;
   flex-direction: column;
@@ -146,6 +160,10 @@ export default {
   width: 100%;
   height: 40px;
   background: #000;
+  color: white;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
   margin-bottom: 10px;
 }
 .seat-row {
@@ -168,15 +186,12 @@ export default {
   margin-bottom: 5px;
   background-image: url('@/assets/butaca-de-cine disponibles.png');
 }
-
 .seat.selected {
   background-image: url('@/assets/butaca-de-cine seleccionada.png');
 }
-
 .seat.occupied {
   background-image: url('@/assets/butaca-de-cine ocupada.png');
 }
-  
 .seat.invisible {
   visibility: hidden;
 }
@@ -203,4 +218,18 @@ export default {
   border: 1px solid #444;
   margin-right: 5px;
 }
+.confirm-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.confirm-button:hover {
+  background-color: #e5533c;
+
+}
 </style>
+
