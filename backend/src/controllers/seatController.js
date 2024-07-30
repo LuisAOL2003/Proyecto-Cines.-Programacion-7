@@ -16,11 +16,11 @@ export const createSeat = async (req, res) => {
 };
 
 // Obtener todos los asientos de una sala
-export const getSeatsByHall = async (req, res) => {
-  const { id_sala } = req.params;
+export const getSeatsByHallAndMovie = async (req, res) => {
+  const { id_sala, id_pelicula } = req.params;
 
   try {
-    const result = await pool.query('SELECT * FROM Asientos WHERE ID_sala = $1', [id_sala]);
+    const result = await pool.query('SELECT * FROM Asientos WHERE ID_sala = $1 and ID_pelicula = $2', [id_sala, id_pelicula]);
     res.json(result.rows);
   } catch (error) {
     res.status(400).json({ error: error.message });
