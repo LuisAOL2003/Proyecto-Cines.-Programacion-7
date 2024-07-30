@@ -7,14 +7,21 @@
         <strong class="is-size-4 has-text-white">Cinecity: Tu cine, Tu Película (Admin)</strong>
       </a>
       <!-- Menú hamburguesa para dispositivos móviles -->
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <a
+        role="button"
+        class="navbar-burger burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarAdminMenu"
+        @click="toggleMenu"
+      >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
     <!-- Menú de navegación -->
-    <div id="navbar" class="navbar-menu">
+    <div id="navbarAdminMenu" class="navbar-menu" :class="{'is-active': isMenuActive}">
       <div class="navbar-start">
         <router-link to="/admin" class="navbar-item">Home</router-link>
         <router-link to="/movie-create" class="navbar-item">Peliculas</router-link>
@@ -40,28 +47,31 @@ import Cookies from 'js-cookie';
 
 export default {
   name: 'NavAdmin',
+  data() {
+    return {
+      isMenuActive: false,
+    };
+  },
   methods: {
+    toggleMenu() {
+      this.isMenuActive = !this.isMenuActive;
+    },
     async logout() {
       try {
-        // Obtener el ID del usuario del token decodificado
         const token = Cookies.get('accessToken');
         if (!token) {
           console.error('No se encontró el token');
           return;
         }
 
-        // Decodificar el token para obtener el ID del usuario
         const payload = JSON.parse(atob(token.split('.')[1]));
         const userId = payload.id;
 
-        // Realizar la solicitud de cierre de sesión al backend
         await axios.post('http://localhost:3000/api/auth/logout', { id: userId });
 
-        // Limpiar cookies y cualquier estado del usuario en el frontend
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
 
-        // Redirigir a la página de inicio o login
         this.$router.push('/login');
       } catch (error) {
         console.error('Error al cerrar sesión:', error);
@@ -72,25 +82,57 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-nav {
+.navbar {
   margin-top: 25px;
   margin-bottom: 30px;
-  background-color: #2c3e50; 
-  a {
+  background-color: #2c3e50;
+  &.is-active {
+    background-color: #2c3e50;
+  }
+  .navbar-brand, .navbar-menu {
+    height: 60px;
+    line-height: 60px;
+  }
+  .navbar-item {
     font-weight: bold;
-    color: #ffffff; 
+    color: #ffffff;
     &.router-link-exact-active {
       color: #d88d00;
     }
   }
+  .navbar-burger {
+    color: #ffffff;
+    span {
+      background-color: #ffffff;
+    }
+  }
+  .navbar-menu {
+    &.is-active {
+      display: block;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: #2c3e50;
+      z-index: 10;
+      .navbar-start,
+      .navbar-end {
+        display: flex;
+        flex-direction: column;
+        .navbar-item {
+          color: #ffffff;
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
 }
 
-button {
+.buttons .button {
   background-color: #ff6347;
 }
 
-button:hover {
+.buttons .button:hover {
   background-color: #e5533c;
 }
 </style>
