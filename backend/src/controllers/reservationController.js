@@ -2,12 +2,12 @@ import pool from '../config/db.js';
 
 // Crear una nueva reserva
 export const createReservation = async (req, res) => {
-  const { id_usuario, id_asiento, id_pelicula } = req.body;
+  const { id_usuario, id_asiento, id_horario } = req.body;
 
   try {
     const result = await pool.query(
-      'INSERT INTO Reservas (ID_usuario, ID_asiento, ID_pelicula) VALUES ($1, $2, $3) RETURNING *',
-      [id_usuario, id_asiento, id_pelicula]
+      'INSERT INTO Reservas (ID_usuario, ID_asiento, ID_horario) VALUES ($1, $2, $3) RETURNING *',
+      [id_usuario, id_asiento, id_horario]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -27,12 +27,12 @@ export const getReservationsByUser = async (req, res) => {
   }
 };
 
-export const getReservationsByProjection = async (req, res) => {
+// Obtener reservas por horario
+export const getReservationsBySchedule = async (req, res) => {
   try {
-    const { id_pelicula } = req.params;
-    // Realiza la consulta a la base de datos para obtener las reservas
-    const reservations = await db.query('SELECT * FROM reservas WHERE ID_pelicula = $1', [id_pelicula]);
-    res.json(reservations.rows);
+    const { id_horario } = req.params;
+    const result = await pool.query('SELECT * FROM Reservas WHERE ID_horario = $1', [id_horario]);
+    res.json(result.rows);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

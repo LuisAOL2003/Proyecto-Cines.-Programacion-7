@@ -20,19 +20,9 @@ export default {
   methods: {
     goToDetails() {
       const movieId = this.event.id_pelicula || this.event.id_cartelera;
-      
-      // Verificar si hay un token de autenticación en las cookies
-      const token = this.getCookie('accessToken'); // Cambia 'accessToken' por el nombre de tu cookie
-      
-      console.log('Token:', token); // Depuración: Verifica si el token se está obteniendo
-      if (!token) {
-        console.log('No token found, redirecting to login.'); // Depuración
-        // Redirigir al login si no hay token
-        this.$router.push({ name: 'login' }).catch(error => {
-          console.error('Redirection to login failed:', error);
-        });
-        return;
-      }
+
+      console.log('ID de la película:', movieId); // Verifica el ID de la película
+      console.log('Evento:', this.event);
 
       if (!movieId) {
         console.error('ID no disponible para la navegación.');
@@ -114,3 +104,6 @@ h2 {
   margin: 0;
 }
 </style>
+
+
+
