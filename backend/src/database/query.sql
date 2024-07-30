@@ -65,6 +65,8 @@ Fila VARCHAR(5) NOT NULL,
 Numero INT NOT NULL,
 Disponible BOOLEAN DEFAULT TRUE,
 ID_sala INT NOT NULL,
+ID_pelicula INT NOT NULL,
+FOREIGN KEY (ID_pelicula) REFERENCES Películas(ID_pelicula),
 FOREIGN KEY (ID_sala) REFERENCES Salas(ID_sala)
 );
 
