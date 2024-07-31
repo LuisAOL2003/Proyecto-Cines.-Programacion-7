@@ -89,12 +89,9 @@ CREATE TABLE Reservas (
 ID_reserva SERIAL PRIMARY KEY,
 Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 ID_usuario INT NOT NULL,
-ID_asiento INT NOT NULL,
 ID_horario INT NOT NULL,
 FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario),
-FOREIGN KEY (ID_asiento) REFERENCES Asientos(ID_asiento),
 FOREIGN KEY (ID_horario) REFERENCES Horarios(ID_horario),
-UNIQUE (ID_asiento, ID_horario)
 );
 
 -- Creacion tabla de Cartelera

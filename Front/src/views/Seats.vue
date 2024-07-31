@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>ACA ESTAN LOS ASIENTOS PARA LA PELICULA: {{ movieTitle }}</h2>
+    <h2> ASIENTOS PARA LA PELICULA: {{ movieTitle }}</h2>
     <Cinema
       :leftInitial="0"
       :leftColumns="4"
@@ -15,7 +15,7 @@
       :seats="seats"
       @update:selectedRef="updateSelectedRef"
     />
-    <button class="confirm-button" @click="confirmReservation">Confirmar Reserva</button>
+    <button class="confirm-button" @click="confirmReservation">Confirmar</button>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      selectedRef: [], // Cambia esto para almacenar los valores de fila y número de los asientos seleccionados
+      selectedRef: [], // Almacena los valores de fila y número de los asientos seleccionados
       ocupados: [],
       movieTitle: 'Error al cargar el título',
       seats: []  // Inicializar seats como un array vacío
@@ -117,9 +117,10 @@ export default {
 
       // Convertir los asientos seleccionados a IDs
       const selectedSeats = this.selectedRef.map(seat => {
-        console.log('Buscando asiento:', seat);
+        console.log('Buscando asiento:', seat); 
+        
         // Encuentra el ID del asiento basado en la fila y número seleccionados
-        const seatDetails = this.seats.find(s => s.fila === seat.fila && s.numero === seat.numero);
+        const seatDetails = this.seats.find(s => s.id_asiento === seat.id);
         console.log('Asiento encontrado:', seatDetails);
         return seatDetails ? seatDetails.id_asiento : null;
       }).filter(id => id !== null);
@@ -130,21 +131,24 @@ export default {
         alert('No se encontraron asientos válidos.');
         return;
       }
-
-      const response = await fetch(`http://localhost:3000/api/reservations`, {
+      const reservationResponse = await fetch(`http://localhost:3000/api/reservations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id_usuario: userId,  // Asegúrate de que el campo se llama 'id_usuario' en el backend
+          id_usuario: userId,   
           id_asientos: selectedSeats,
           id_horario: this.$route.params.id_horario
         }),
       });
-
-      if (response.ok) {
-        alert('Reserva confirmada exitosamente.');
+      console.log('hola',selectedSeats)
+      if (reservationResponse.ok) {
+        const { id_reserva } = await reservationResponse.json(); 
+        this.$router.push({
+          path: `/ticket-details/${id_reserva}`,
+          params: { selectedSeats: selectedSeats, id_reserva: id_reserva }  // Asegúrate de pasar los asientos seleccionados
+        });
       } else {
         alert('Error al confirmar la reserva.');
       }
@@ -152,6 +156,9 @@ export default {
   }
 };
 </script>
+
+
+
 
 <style scoped>
 .container {

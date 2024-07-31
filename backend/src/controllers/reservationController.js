@@ -13,38 +13,23 @@ export const createReservation = async (req, res) => {
     // Iniciar una transacción
     await pool.query('BEGIN');
 
-    // Buscar IDs de asientos a partir de la fila y el número
-    const seatIds = [];
-    for (const seat of id_asientos) {
-      const result = await pool.query(
-        'SELECT ID_asiento FROM Asientos WHERE Fila = $1 AND Numero = $2 AND Disponible = TRUE',
-        [seat.fila, seat.numero]
-      );
-      if (result.rows.length > 0) {
-        seatIds.push(result.rows[0].ID_asiento);
-      } else {
-        throw new Error(`El asiento ${seat.fila}${seat.numero} no está disponible.`);
-      }
-    }
-
-    if (seatIds.length === 0) {
-      throw new Error('No se encontraron asientos disponibles.');
-    }
-
     // Insertar reservas
-    const insertQuery = 'INSERT INTO Reservas (ID_usuario, ID_asiento, ID_horario) VALUES ($1, $2, $3)';
-    for (const id_asiento of seatIds) {
-      await pool.query(insertQuery, [id_usuario, id_asiento, id_horario]);
-    }
-
+    const insertQuery = 'INSERT INTO Reservas (ID_usuario, ID_horario) VALUES ($1,$2) returning id_reserva';
+   
+    const {rows}= await pool.query(insertQuery,[id_usuario,id_horario])
+    console.log(rows)
+     
     // Actualizar el estado de los asientos
     const updateQuery = 'UPDATE Asientos SET Disponible = FALSE WHERE ID_asiento = ANY($1::int[])';
-    await pool.query(updateQuery, [seatIds]);
-
+    for(const boleto in id_asientos){
+      await pool.query(updateQuery, [id_asientos]);
+    }
     // Confirmar la transacción
     await pool.query('COMMIT');
 
-    res.status(201).json({ message: 'Reserva creada correctamente' });
+    res.status(201).json({ id_reserva: rows[0].id_reserva });
+    
+    
   } catch (error) {
     // Revertir la transacción en caso de error
     await pool.query('ROLLBACK');

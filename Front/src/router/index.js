@@ -94,7 +94,7 @@ const routes = [
     }, 
   }, 
   {
-    path: '/ticket-details',
+    path: '/ticket-details/:id_reserva',
     name: 'TicketDetails',
     component: TicketDetails,
     meta: {
