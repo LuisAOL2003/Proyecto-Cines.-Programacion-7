@@ -39,21 +39,15 @@
 <script>
 export default {
   name: 'TicketDetails',
-  props: {
-    selectedSeats: {
-      type: Array,
-      default: () => []
-    }
-  },
   data() {
     return {
       details: {},
-      selectedSeats: this.selectedSeats || [],
       ticketTypes: [
         { name: 'Infantil', price: 5, quantity: 0 },
         { name: 'Adulto', price: 10, quantity: 0 },
         { name: 'Adulto Mayor', price: 7, quantity: 0 }
       ],
+      selectedSeats: this.$route.params.selectedSeats || []
     };
   },
   computed: {
