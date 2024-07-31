@@ -1,5 +1,5 @@
 import pool from '../config/db.js';
-import { getTicketDetails } from '../services/queriesService.js';
+import { getTicketDetails, getReservationDetails } from '../services/queriesService.js';
 
 // Crear un nuevo boleto
 export const createTicket = async (req, res) => {
@@ -69,6 +69,22 @@ export const getAllTickets = async (req, res) => {
 };
 
 //Joins
+
+// Obtener detalles de una reserva
+export const getReservationDetailsController = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const reservationDetails = await getReservationDetails(id);
+    if (!reservationDetails) {
+      return res.status(404).json({ error: 'Reserva no encontrada' });
+    }
+    res.json(reservationDetails);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 
 // Obtener detalles de un boleto
 export const getTicketDetailsController = async (req, res) => {

@@ -12,7 +12,7 @@ export const getMovieSchedulesAndHalls = async (movieId) => {
         FROM 
           Horarios h
           JOIN Salas s ON h.id_sala = s.id_sala
-          JOIN Peliculas p ON h.id_pelicula = p.id_pelicula
+          JOIN Películas p ON h.id_pelicula = p.id_pelicula
         WHERE
           p.id_pelicula = $1
       `, [movieId]);
@@ -40,7 +40,7 @@ export const getTicketDetails = async (ticketId) => {
         Boletos b
         JOIN Usuarios u ON b.id_usuario = u.id_usuario
         JOIN Cines c ON b.id_cine = c.id_cine
-        JOIN Peliculas p ON b.id_pelicula = p.id_pelicula
+        JOIN Películas p ON b.id_pelicula = p.id_pelicula
         JOIN Salas s ON b.id_sala = s.id_sala
         JOIN Asientos a ON b.id_asiento = a.id_asiento
       WHERE
@@ -48,6 +48,64 @@ export const getTicketDetails = async (ticketId) => {
     `, [ticketId]);
 
     return result.rows[0];
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Obtener detalles de una reserva con información de boletos
+export const getReservationDetails = async (reservationId) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        h.ID_horario,
+        r.ID_reserva,
+        u.ID_usuario,
+        u.Email AS usuario_email,
+        r.Fecha AS fecha_reserva,
+        h.horainicio,
+        h.horafin
+      FROM 
+        Reservas r
+        JOIN Usuarios u ON r.ID_usuario = u.ID_usuario
+        JOIN Horarios h ON r.ID_horario = h.ID_horario
+      WHERE
+        r.ID_reserva = $1
+    `, [reservationId]);
+
+    console.log(result.rows)
+    const resultHoarios = await pool.query(
+      `
+      SELECT
+      p.ID_pelicula,
+      s.ID_sala,
+      p.título As titulo_pelicula,
+      p.imagenurl AS imagen_pelicula,
+      s.nombre AS nombre_sala
+      FROM
+      Horarios h
+      JOIN Películas p ON h.ID_pelicula = p.ID_pelicula
+      JOIN Salas s ON h.ID_sala = s.ID_sala
+      WHERE
+      h.ID_horario = ${result.rows[0].id_horario}
+      `
+      
+    )
+    console.log(resultHoarios.rows)
+
+  
+      
+    if (result.rows.length === 0) {
+      return null;  // En caso de que no se encuentre la reserva
+    }
+    const reservationDetails = {
+      ...result.rows[0],
+      ...resultHoarios.rows[0],
+      selectedSeats: [] , // Inicialmente vacío, ya que se pasará desde el frontend
+      asientos: result.rows.map(row => row.asiento_numero)
+    };
+
+    return reservationDetails;
   } catch (error) {
     throw new Error(error.message);
   }

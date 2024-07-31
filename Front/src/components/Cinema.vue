@@ -40,7 +40,7 @@
     </div>
 
     <p class="flex justify-center px-5 uppercase font-bold w-full">
-      Butacas seleccionadas: {{ selected.join(', ') }}
+      Butacas seleccionadas: {{ selected.map(row=>row.label).join(', ') }}
     </p>
   </div>
 </template>
@@ -82,9 +82,13 @@ export default {
 
       const seatLabel = `${seat.fila}${seat.numero}`;
       const seatIndex = this.selected.indexOf(seatLabel);
+      const seatId = seat.id_asiento
 
-      if (seatIndex === -1) {
-        this.selected.push(seatLabel);
+      if (!this.selected.find(seat=>seat.id===seatId)) {
+        this.selected.push({
+          label:seatLabel,
+          id: seatId
+        });
       } else {
         this.selected.splice(seatIndex, 1);
       }
@@ -92,7 +96,7 @@ export default {
       this.$emit('update:selectedRef', this.selected);
     },
     isSelected(seat) {
-      return this.selected.includes(`${seat.fila}${seat.numero}`);
+      return this.selected.find(row=>row.id===seat.id_asiento);
     },
     confirmSelection() {
       this.$emit('confirm');
