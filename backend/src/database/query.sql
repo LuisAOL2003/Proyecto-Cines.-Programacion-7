@@ -112,19 +112,49 @@ ID_boleto SERIAL PRIMARY KEY,
 ID_reserva INT NOT NULL,
 ID_pelicula INT NOT NULL,
 ID_sala INT NOT NULL,
-ID_asiento INT NOT NULL,
 ID_usuario INT NOT NULL,
 FechaCompra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 Precio DECIMAL(10, 2) NOT NULL,
 FOREIGN KEY (ID_reserva) REFERENCES Reservas(ID_reserva),
 FOREIGN KEY (ID_pelicula) REFERENCES Películas(ID_pelicula),
 FOREIGN KEY (ID_sala) REFERENCES Salas(ID_sala),
-FOREIGN KEY (ID_asiento) REFERENCES Asientos(ID_asiento),
 FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario)
-);
+)
 
+-- Hay registros que se deben insertar manualmente desde la base de datos para que la aplicacion funcione correctamente
 
--- Inserción en Roles
+-- Inserción en la tabla de Roles
 
 INSERT INTO Roles (Nombre) VALUES ('Administrador');
 INSERT INTO Roles (Nombre) VALUES ('Cliente');
+
+-- Inserción en la tabla de Cines
+
+INSERT INTO Cines (Nombre, Dirección, Ciudad, Estado, CódigoPostal) VALUES ('CineCity', 'Los Naranjos', 'Caracas', 'Distrito Cpital', '1234')
+
+-- Inserción en la tabla de Salas
+
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 1', 150, 1);
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 2', 150, 1);
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 3', 150, 1);
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 4', 150, 1);
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 5', 150, 1);
+INSERT INTO Salas (Nombre, Capacidad, ID_Cine) VALUES ('Sala 6', 150, 1);
+
+-- Inserción en la tabla de Asientos (estos son un gran numero de inserts ya que nuestro cine tiene 10 filas osea que llega hasta la letra 'J' y tiene 15 columnas osea que cada letra tiene 15 asientos pero por motivos de prueba puede crear los asientos que se deseen)
+
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 1, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 2, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 3, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 4, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 5, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 6, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 7, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 8, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 9, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 10, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 11, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 12, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 13, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 14, 1, 1);
+INSERT INTO Asientos (Fila, Numero, ID_sala, ID_pelicula) VALUES ('A', 15, 1, 1);

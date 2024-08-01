@@ -104,7 +104,10 @@ export const searchMovies = async (req, res) => {
         genre: movie.genre_ids.map(id => genreMap[id] || 'Desconocido').join(', '),
         imageUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         releaseDate: movie.release_date,
-        originalLanguage: movie.original_language
+        originalLanguage: movie.original_language,
+        voteaverage:movie.vote_average,
+        votecount:movie.vote_count,
+        popularity:movie.popularity
       }));
 
       res.json(movies);

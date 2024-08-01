@@ -27,6 +27,15 @@
         <label for="originalLanguage">Idioma Original</label>
         <input type="text" id="originalLanguage" v-model="movie.originalLanguage" />
 
+        <label for=" votecount">Conteo de votos</label>
+        <input type="number" id=" votecount" v-model="movie. votecount" />
+
+        <label for="voteaverage">Voteaverage</label>
+        <input type="number" id="voteaverage" v-model="movie.voteaverage" />
+
+        <label for="popularity">Popularity</label>
+        <input type="number" id="popularity" v-model="movie.popularity" />
+
         <div class="button-container">
           <button type="submit">Guardar Película</button>
         </div>

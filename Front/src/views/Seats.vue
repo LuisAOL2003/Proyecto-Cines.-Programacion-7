@@ -89,14 +89,14 @@ export default {
   },
   methods: {
     updateSelectedRef(selected) {
-      this.selectedRef = selected; // Asegúrate de que selectedRef contenga los valores correctos
+      this.selectedRef = selected; 
       console.log(this.selectedRef);
     },
     getUserIdFromToken() {
       const token = this.getCookie('accessToken');
       if (token) {
         const decodedToken = jwtDecode(token);
-        return decodedToken.id;  // Ajusta esto según la estructura de tu token
+        return decodedToken.id;  
       }
       return null;
     },
@@ -147,7 +147,7 @@ export default {
         const { id_reserva } = await reservationResponse.json(); 
         this.$router.push({
           path: `/ticket-details/${id_reserva}`,
-          params: { selectedSeats: selectedSeats, id_reserva: id_reserva }  // Asegúrate de pasar los asientos seleccionados
+          params: { selectedSeats: selectedSeats, id_reserva: id_reserva }  
         });
       } else {
         alert('Error al confirmar la reserva.');

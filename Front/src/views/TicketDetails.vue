@@ -240,24 +240,24 @@ export default {
   background-color: #e5533c;
 }
 
-/* Estilo adicional para asegurar que el texto sea negro */
+
 .ticket-type-section,
 .movie-details-section {
   color: black;
 }
 
-/* Centrar el título y poner en negrita */
+
 .movie-details-section h3 {
   text-align: center;
   font-weight: bold;
 }
 
-/* Poner en negrita las palabras Título, Sala, etc. */
+
 .movie-details-section p strong {
   font-weight: bold;
 }
 
-/* Estilo para la imagen de la película */
+
 .movie-image {
   text-align: center;
   margin-bottom: 20px;
@@ -270,7 +270,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Centrar el botón de comprar boletos */
+
 .buy-tickets-container {
   display: flex;
   justify-content: center;

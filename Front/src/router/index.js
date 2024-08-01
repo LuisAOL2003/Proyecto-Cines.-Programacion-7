@@ -9,7 +9,7 @@ import MovieCreate from '../views/MovieCreate.vue';
 import AssignFunctions from '../views/AssignFunctions.vue'; 
 import MovieDetail from '../views/MovieDetail.vue';
 import Seats from '../views/Seats.vue';
-import TicketDetails from '../views/TicketDetails.vue'; // Importa la nueva vista
+import TicketDetails from '../views/TicketDetails.vue'; 
 
 // Helper function to get the token from cookies
 function getTokenFromCookies() {
