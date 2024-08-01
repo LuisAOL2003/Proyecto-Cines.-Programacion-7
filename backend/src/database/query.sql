@@ -91,7 +91,7 @@ Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 ID_usuario INT NOT NULL,
 ID_horario INT NOT NULL,
 FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario),
-FOREIGN KEY (ID_horario) REFERENCES Horarios(ID_horario),
+FOREIGN KEY (ID_horario) REFERENCES Horarios(ID_horario)
 );
 
 -- Creacion tabla de Cartelera

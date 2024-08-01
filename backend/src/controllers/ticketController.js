@@ -3,13 +3,13 @@ import { getTicketDetails, getReservationDetails } from '../services/queriesServ
 
 // Crear un nuevo boleto
 export const createTicket = async (req, res) => {
-  const { id_reserva, id_pelicula, id_sala, id_asiento, id_usuario, precio } = req.body;
+  const { id_reserva, id_pelicula, id_sala, id_usuario, precio } = req.body;
 
   try {
     const result = await pool.query(
-      `INSERT INTO Boletos (ID_reserva, ID_pelicula, ID_sala, ID_asiento, ID_usuario, Precio) 
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [id_reserva, id_pelicula, id_sala, id_asiento, id_usuario, precio]
+      `INSERT INTO Boletos (ID_reserva, ID_pelicula, ID_sala, ID_usuario, Precio) 
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [id_reserva, id_pelicula, id_sala, id_usuario, precio]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {

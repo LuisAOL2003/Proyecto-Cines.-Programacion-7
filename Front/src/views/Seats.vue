@@ -5,7 +5,7 @@
       :leftInitial="0"
       :leftColumns="4"
       :middleInitial="4"
-      :middleColumns="12"
+      :middleColumns="7"
       :rightInitial="0"
       :rightColumns="4"
       :totalRows="10"
@@ -156,9 +156,6 @@ export default {
   }
 };
 </script>
-
-
-
 
 <style scoped>
 .container {
