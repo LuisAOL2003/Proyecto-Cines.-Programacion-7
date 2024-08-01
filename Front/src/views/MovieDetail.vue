@@ -77,7 +77,8 @@ export default {
       console.log('Seleccionando horario:', scheduleId); // Verifica el valor del horario
 
       if (scheduleId) {
-        this.$router.push({ name: 'Seats', params: { id_horario: scheduleId } });
+        this.$router.push({ name: 'Seats', params: { id_horario
+        : scheduleId } });
       } else {
         console.error('ID de horario no disponible.');
       }
