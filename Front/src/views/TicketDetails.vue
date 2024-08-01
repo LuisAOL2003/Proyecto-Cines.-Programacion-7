@@ -25,7 +25,6 @@
         <p><strong>Hora de inicio:</strong> {{ details.horainicio }}</p>
         <p><strong>Hora de fin:</strong> {{ details.horafin }}</p>
         <p><strong>Fecha:</strong> {{ new Date(details.fecha_reserva).toLocaleDateString() }}</p>
-        <p><strong>Asientos:</strong> {{ selectedSeats.map(seat => seat.label).join(', ') }}</p>
         <p><strong>Usuario:</strong> {{ details.usuario_email }}</p>
         <p><strong>Total de la compra:</strong> ${{ total }}</p>
       </div>
@@ -37,6 +36,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   name: 'TicketDetails',
   data() {
@@ -60,20 +61,15 @@ export default {
       try {
         const response = await fetch(`http://localhost:3000/api/reservations/details/${this.$route.params.id_reserva}`);
         const data = await response.json();
-        console.log('Detalles del ticket:', data); // Verificar detalles del ticket
         this.details = {
           ...data,
           asientos: data.asientos || []
         };
 
-        // Aquí, se deben convertir los IDs de los asientos a objetos con una propiedad 'label'
         this.selectedSeats = data.asientos.map(id => ({
           id,
-          label: `Asiento ${id}` // Ajusta esto según cómo deseas mostrar los asientos
+          label: `Asiento ${id}`
         }));
-        
-        console.log('Asientos seleccionados:', this.selectedSeats); // Verificar asientos seleccionados
-
       } catch (error) {
         console.error('Error fetching ticket details:', error);
       }
@@ -86,7 +82,11 @@ export default {
     },
     async buyTickets() {
       if (this.total === 0) {
-        alert('No has seleccionado boletos.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'No has seleccionado boletos.',
+          text: 'Por favor, selecciona al menos un tipo de boleto.'
+        });
         return;
       }
 
@@ -95,26 +95,41 @@ export default {
       );
 
       try {
-        const response = await fetch(`http://localhost:3000/api/reservations/details/${this.$route.params.id_reserva}`, {
+        const response = await fetch('http://localhost:3000/api/tickets', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            movie_id: this.details.id_pelicula,
-            schedule_id: this.details.id_horario,
+            id_reserva: this.$route.params.id_reserva,
+            id_pelicula: this.details.id_pelicula,
+            id_sala: this.details.id_sala,
+            id_usuario: this.details.id_usuario,
+            precio: this.total,
             tickets: selectedTickets
           })
         });
 
         if (response.ok) {
-          alert('Compra realizada exitosamente.');
-          this.$router.push('/confirmation');
+          Swal.fire({
+            icon: 'success',
+            title: 'Boleto comprado correctamente',
+            text: 'Puede proceder a imprimirlo en el cine.'
+          });
         } else {
-          alert('Error al realizar la compra.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al realizar la compra',
+            text: 'Hubo un problema al procesar su compra. Intente nuevamente.'
+          });
         }
       } catch (error) {
         console.error('Error en la compra de boletos:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en la compra de boletos',
+          text: 'Hubo un problema al procesar su compra. Intente nuevamente.'
+        });
       }
     }
   },
@@ -250,7 +265,7 @@ export default {
 
 .movie-image img {
   max-width: 100%;
-  height: auto;
+  height: 500px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
